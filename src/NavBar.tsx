@@ -23,7 +23,7 @@ export default function NavBar() {
 
   function NavItems() {
     return (
-      <Box display="flex" flexDirection="row">
+      <>
         <Box padding={1} marginRight={1}>
           <Link
             to="/"
@@ -102,7 +102,7 @@ export default function NavBar() {
             </Box>
           </Link>
         </Box>
-      </Box>
+      </>
     );
   }
 

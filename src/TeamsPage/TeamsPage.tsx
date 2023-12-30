@@ -34,13 +34,13 @@ export default function TeamsPage() {
   const [teamSeasonTotals, setTeamSeasonTotals] = useState<
     Array<TeamSeasonTotal>
   >([]);
-  let { Th, sortTable } = sortableTable();
+  const { Th, sortTable } = sortableTable();
 
   const classes = useStyles();
 
   // load team season totals
   useEffect(() => {
-    if (!!league) {
+    if (league) {
       sfetchList("/team/getTeamSeasonTotals?league=" + league).then((list) => {
         const teamSeasonTotals = list;
 
@@ -71,17 +71,12 @@ export default function TeamsPage() {
     <Box
       display="flex"
       justifyContent="center"
+      alignItems="center"
       flexDirection="column"
       margin={2}
     >
-      <Box width={300}>
-        <Box display="flex" flexDirection="row" marginBottom={2}>
-          <SimpleSelect
-            value={league}
-            entity="league"
-            onChange={leagueChange}
-          />
-        </Box>
+      <Box display="flex" flexDirection="row" marginBottom={2}>
+        <SimpleSelect value={league} entity="league" onChange={leagueChange} />
       </Box>
       <Box display="flex" justifyContent="center" flexDirection="column">
         <table>

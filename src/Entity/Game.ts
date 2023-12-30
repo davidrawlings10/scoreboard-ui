@@ -10,6 +10,7 @@ export default interface Game {
   endingPeriod: number;
   sport: "HOCKEY" | "SOCCER";
   status: "SCHEDULED" | "PLAYING" | "FINAL";
+  homeHasPossession: boolean;
   clock: Clock;
   teamAlreadyPlaying: "NONE" | "HOME" | "AWAY" | "BOTH";
 }

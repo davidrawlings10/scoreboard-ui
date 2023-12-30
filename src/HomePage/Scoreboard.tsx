@@ -24,13 +24,26 @@ interface ScoreboardRowProps {
   teamId: number;
   score: number;
   small?: boolean;
+  possession?: boolean;
 }
 
-function ScoreboardRow({ teamId, score, small }: ScoreboardRowProps) {
+function ScoreboardRow({
+  teamId,
+  score,
+  small,
+  possession,
+}: ScoreboardRowProps) {
   return (
     <Box display="flex" flexDirection="row">
-      <Box border="1px solid black" p={1} width="85%">
+      <Box
+        border="1px solid black"
+        p={1}
+        width="85%"
+        display="flex"
+        flexDirection="row"
+      >
         <TeamDisplay id={teamId} hideLocation={small} />
+        {possession && " p"}
       </Box>
       <Box
         border="1px solid black"
@@ -61,11 +74,11 @@ export default function Scoreboard(props: ScoreboardProps) {
     setConfirmationDailogOpen(true);
   }
 
-  const confirmationDialogHandleClose = (confirm: Boolean) => {
+  const confirmationDialogHandleClose = (confirm: boolean) => {
     setConfirmationDailogOpen(false);
 
     if (confirm) {
-      if (!!props.game) {
+      if (props.game) {
         fetch(
           config.baseUrl + "/game/terminateCurrentGame?gameId=" + props.game.id
         );
