@@ -12,6 +12,7 @@ export default interface Game {
   status: "SCHEDULED" | "PLAYING" | "FINAL";
   clock: Clock;
   teamAlreadyPlaying: "NONE" | "HOME" | "AWAY" | "BOTH";
+  homeHasPossession: boolean;
 }
 
 export interface Clock {

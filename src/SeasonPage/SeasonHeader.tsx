@@ -67,9 +67,11 @@ export default function SeasonHeader(props: SeasonHeaderProps) {
               flexDirection="column"
               justifyContent="center"
             >
-              <Box>Winner</Box>
+              <Box>Scheduled</Box>
               <Box>
-                <TeamDisplay id={season.winnerTeamId} />
+                {new Date(season.created).toLocaleString("en-US", {
+                  timeZone: config.timeZone,
+                })}
               </Box>
             </Box>
             <Box
@@ -78,11 +80,9 @@ export default function SeasonHeader(props: SeasonHeaderProps) {
               flexDirection="column"
               justifyContent="center"
             >
-              <Box>Scheduled</Box>
+              <Box>Winner</Box>
               <Box>
-                {new Date(season.created).toLocaleString("en-US", {
-                  timeZone: config.timeZone,
-                })}
+                <TeamDisplay id={season.winnerTeamId} />
               </Box>
             </Box>
           </Box>

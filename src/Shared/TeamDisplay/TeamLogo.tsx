@@ -21,7 +21,15 @@ import SwanLogo from "../../images/logos/teams/aves/SwanLogo.svg";
 import FlamingoLogo from "../../images/logos/teams/aves/FlamingoLogo.svg";
 import OstrichLogo from "../../images/logos/teams/aves/OstrichLogo.svg";
 import ParrotLogo from "../../images/logos/teams/aves/ParrotLogo.svg";
+import HeronLogo from "../../images/logos/teams/aves/HeronLogo.svg";
+import DoveLogo from "../../images/logos/teams/aves/DoveLogo.svg";
+import EagleLogo from "../../images/logos/teams/aves/EagleLogo.svg";
 import OwlLogo from "../../images/logos/teams/aves/OwlLogo.svg";
+import HawkLogo from "../../images/logos/teams/aves/HawkLogo.svg";
+import TurkeyLogo from "../../images/logos/teams/aves/TurkeyLogo.svg";
+import PeacockLogo from "../../images/logos/teams/aves/PeacockLogo.svg";
+import PelicanLogo from "../../images/logos/teams/aves/PelicanLogo.svg";
+import RoadrunnerLogo from "../../images/logos/teams/aves/RoadrunnerLogo.svg";
 
 import HurricanesLogo from "../../images/logos/teams/nhl/HurricanesLogo.svg";
 import BlueJacketsLogo from "../../images/logos/teams/nhl/BlueJacketsLogo.svg";
@@ -76,7 +84,7 @@ interface TeamLogoProps {
 
 export default function TeamLogo({ id }: TeamLogoProps) {
   const teamLogo = getTeamLogo(id);
-  return !!teamLogo ? <img src={teamLogo} alt="Team Logo" /> : <span />;
+  return teamLogo ? <img src={teamLogo} alt="Team Logo" /> : <span />;
 }
 
 function getTeamLogo(id: number) {
@@ -127,8 +135,24 @@ function getTeamLogo(id: number) {
       return OstrichLogo;
     case 23:
       return ParrotLogo;
+    case 24:
+      return HeronLogo;
+    case 25:
+      return DoveLogo;
+    case 26:
+      return EagleLogo;
     case 27:
       return OwlLogo;
+    case 28:
+      return HawkLogo;
+    case 29:
+      return TurkeyLogo;
+    case 30:
+      return PeacockLogo;
+    case 31:
+      return PelicanLogo;
+    case 32:
+      return RoadrunnerLogo;
     case 33:
       return HurricanesLogo;
     case 34:
