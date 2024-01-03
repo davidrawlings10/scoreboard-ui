@@ -36,8 +36,8 @@ export default function GameEventList(props: GameEventListProps) {
         display="flex"
         alignItems="center"
         flexDirection="column"
-        height={400}
-        overflow="scroll"
+        maxHeight={400}
+        overflow="auto"
       >
         {gameEvents
           .sort(function (a, b) {

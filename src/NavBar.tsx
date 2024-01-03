@@ -17,23 +17,55 @@ import theme from "./theme";
   fontWeight: "bold",
 };*/
 
+type NavItem = {
+  name: string;
+  link: string;
+  icon: any;
+};
+
 export default function NavBar() {
   const [showNavItems, setShowNavItems] = useState<boolean>(true);
   const [drawerMenuOpen, setDrawerMenuOpen] = useState<boolean>(false);
 
+  const navList: Array<NavItem> = [
+    { name: "Home", link: "/", icon: <Home /> },
+    { name: "Season", link: "/season", icon: <List /> },
+    { name: "Schedule Season", link: "/scheduleSeason", icon: <PlaylistAdd /> },
+    { name: "Start Game", link: "/startGame", icon: <PlayArrow /> },
+    { name: "Teams", link: "/teams", icon: <List /> },
+  ];
+
   function NavItems() {
     return (
       <Box display="flex" flexDirection="row">
-        <Box padding={1} marginRight={1}>
+        {navList.map((navItem: NavItem) => (
+          <Box padding={1} marginRight={1}>
+            <Link
+              to={navItem.link}
+              style={{
+                color: theme.palette.text.primary,
+                textDecoration: "none",
+                fontWeight: "bold",
+                /*"&:hover": {
+                  color: theme.palette.text.secondary,
+                },*/
+              }}
+            >
+              <Box display="flex" flexDirection="row" marginRight={2}>
+                {navItem.icon}
+                <Box marginLeft={1}>{navItem.name}</Box>
+              </Box>
+            </Link>
+          </Box>
+        ))}
+        {/* <Box padding={1} marginRight={1}>
           <Link
             to="/"
             style={{
               color: theme.palette.text.primary,
               textDecoration: "none",
               fontWeight: "bold",
-              /*"&:hover": {
-                  color: theme.palette.text.secondary,
-                },*/
+
             }}
           >
             <Box display="flex" flexDirection="row" marginRight={2}>
@@ -101,7 +133,7 @@ export default function NavBar() {
               <Box marginLeft={1}>Teams</Box>
             </Box>
           </Link>
-        </Box>
+        </Box> */}
       </Box>
     );
   }

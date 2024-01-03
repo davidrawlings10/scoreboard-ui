@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import { Snackbar } from "@mui/material";
+import { Snackbar, Box } from "@mui/material";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 
 import SeasonStandingList from "./SeasonStandingList";
@@ -34,7 +34,7 @@ function SeasonDisplay(props: SeasonDisplayProps) {
   }
 
   return (
-    <div>
+    <Box overflow="auto">
       <Snackbar
         open={gameStartedAlertOpen}
         autoHideDuration={1000}
@@ -47,7 +47,7 @@ function SeasonDisplay(props: SeasonDisplayProps) {
       <NextSeasonGame seasonId={props.seasonId} numGames={props.numGames} />
       <SeasonStandingList seasonId={props.seasonId} numGames={props.numGames} />
       <SeasonGameList seasonId={props.seasonId} numGames={props.numGames} />
-    </div>
+    </Box>
   );
 }
 

@@ -82,13 +82,13 @@ export default function SeasonGameList(props: SeasonGameListProps) {
   };
 
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      alignContent="center"
-      flexWrap="wrap"
-    >
-      <Box>
+    <Box display="flex" flexDirection="column" flexWrap="wrap">
+      <Box
+        display="flex"
+        alignContent="center"
+        flexDirection="column"
+        width={600}
+      >
         <Box display="flex" flexDirection="row">
           <Box marginRight={1} marginBottom={1} width={400}>
             <InputLabel id="labelTeam">Team</InputLabel>

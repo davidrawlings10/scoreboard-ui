@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SortableTable = () => {
-  const [sortBy, setSortBy] = useState<string>("point");
+  const [sortBy, setSortBy] = useState<string>("pointPercentage");
   const [sortDirection, setSortDirection] = useState<SortDirection>("ASC");
 
   type SortDirection = "ASC" | "DESC";

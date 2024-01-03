@@ -43,7 +43,7 @@ function ScoreboardRow({
         flexDirection="row"
       >
         <TeamDisplay id={teamId} hideLocation={small} />
-        {possession && " p"}
+        {/*possession && " p"*/}
       </Box>
       <Box
         border="1px solid black"
