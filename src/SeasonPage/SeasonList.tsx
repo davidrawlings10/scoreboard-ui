@@ -48,67 +48,75 @@ export default function SeasonList(props: SeasonListProps) {
   }
 
   return (
-    <Box
-      display="flex"
-      justifyContent="center"
-      flexDirection="column"
-      alignItems="center"
-    >
-      <Box margin={2} width={300}>
-        <Box marginBottom={2}>
-          <SimpleSelect
-            entity="sport"
-            value={sport}
-            onChange={sportChange}
-            displayEmpty
-          />
+    <Box display="flex" flexDirection="column" justifyContent="center">
+      <Box
+        width={800}
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+      >
+        <Box margin={2} width={300}>
+          <Box marginBottom={2}>
+            <SimpleSelect
+              entity="sport"
+              value={sport}
+              onChange={sportChange}
+              displayEmpty
+            />
+          </Box>
+          <Box marginBottom={2}>
+            <SimpleSelect
+              entity="league"
+              value={league}
+              onChange={leagueChange}
+              displayEmpty
+            />
+          </Box>
         </Box>
         <Box marginBottom={2}>
-          <SimpleSelect
-            entity="league"
-            value={league}
-            onChange={leagueChange}
-            displayEmpty
-          />
-        </Box>
-      </Box>
-      <Box marginBottom={2}>
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Winner</th>
-              <th>Teams</th>
-              <th>Schedule</th>
-            </tr>
-          </thead>
-          <tbody>
-            {seasons.map((season) => (
-              <tr
-                key={season.id}
-                onClick={() => viewSeason(season.id)}
-                className={classes.root}
-              >
-                <td>{season.title}</td>
-                <td>
-                  <TeamDisplay id={season.winnerTeamId} />
-                </td>
-                <td>{season.numTeams}</td>
-                <td>{season.scheduleType}</td>
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Winner</th>
+                <th>Teams</th>
+                <th>Schedule</th>
+                <th>Scheduled</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </Box>
-      <Box>
-        <Button
-          href={`${config.baseUrl}/season/getFullSQL`}
-          color="primary"
-          variant="contained"
-          startIcon={<AddToQueue />}
-        >
-          Get Full Insert SQL
-        </Button>
+            </thead>
+            <tbody>
+              {seasons.map((season) => (
+                <tr
+                  key={season.id}
+                  onClick={() => viewSeason(season.id)}
+                  className={classes.root}
+                >
+                  <td>{season.title}</td>
+                  <td>
+                    <TeamDisplay id={season.winnerTeamId} />
+                  </td>
+                  <td>{season.numTeams}</td>
+                  <td>{season.scheduleType}</td>
+                  <td>
+                    {new Date(season.created).toLocaleString("en-US", {
+                      timeZone: config.timeZone,
+                    })}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </Box>
+        <Box>
+          <Button
+            href={`${config.baseUrl}/season/getFullSQL`}
+            color="primary"
+            variant="contained"
+            startIcon={<AddToQueue />}
+          >
+            Get Full Insert SQL
+          </Button>
+        </Box>
       </Box>
     </Box>
   );
