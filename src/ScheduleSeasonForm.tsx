@@ -182,6 +182,16 @@ export default function ScheduleSeasonForm(props: ScheduleSeasonFormProps) {
             </Box>
           </Box>
           <Box paddingLeft={12} paddingRight={6}>
+            <Box marginBottom={2}>
+              <Button
+                variant="contained"
+                onClick={() =>
+                  setSelectedTeamIds(possibleTeams.map((team) => team.id))
+                }
+              >
+                Select All
+              </Button>
+            </Box>
             <Box
               display="flex"
               flexDirection="column"

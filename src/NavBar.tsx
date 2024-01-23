@@ -37,7 +37,7 @@ export default function NavBar() {
 
   function NavItems() {
     return (
-      <Box display="flex" flexDirection="row">
+      <Box display="flex" flexDirection={drawerMenuOpen ? "column" : "row"}>
         {navList.map((navItem: NavItem) => (
           <Box padding={1} marginRight={1}>
             <Link
@@ -58,82 +58,6 @@ export default function NavBar() {
             </Link>
           </Box>
         ))}
-        {/* <Box padding={1} marginRight={1}>
-          <Link
-            to="/"
-            style={{
-              color: theme.palette.text.primary,
-              textDecoration: "none",
-              fontWeight: "bold",
-
-            }}
-          >
-            <Box display="flex" flexDirection="row" marginRight={2}>
-              <Home />
-              <Box marginLeft={1}>Home</Box>
-            </Box>
-          </Link>
-        </Box>
-        <Box padding={1} marginRight={1}>
-          <Link
-            to="/season"
-            style={{
-              color: theme.palette.text.primary,
-              textDecoration: "none",
-              fontWeight: "bold",
-            }}
-          >
-            <Box display="flex" flexDirection="row" marginRight={2}>
-              <List />
-              <Box marginLeft={1}>Season</Box>
-            </Box>
-          </Link>
-        </Box>
-        <Box padding={1} marginRight={1}>
-          <Link
-            to="/scheduleSeason"
-            style={{
-              color: theme.palette.text.primary,
-              textDecoration: "none",
-              fontWeight: "bold",
-            }}
-          >
-            <Box display="flex" flexDirection="row" marginRight={2}>
-              <PlaylistAdd />
-              <Box marginLeft={1}>Schedule Season</Box>
-            </Box>
-          </Link>
-        </Box>
-        <Box padding={1} marginRight={1}>
-          <Link
-            to="/startGame"
-            style={{
-              color: theme.palette.text.primary,
-              textDecoration: "none",
-              fontWeight: "bold",
-            }}
-          >
-            <Box display="flex" flexDirection="row" marginRight={2}>
-              <PlayArrow />
-              <Box marginLeft={1}>Start Game</Box>
-            </Box>
-          </Link>
-        </Box>
-        <Box padding={1} marginRight={1}>
-          <Link
-            to="/teams"
-            style={{
-              color: theme.palette.text.primary,
-              textDecoration: "none",
-              fontWeight: "bold",
-            }}
-          >
-            <Box display="flex" flexDirection="row" marginRight={2}>
-              <SportsHockey />
-              <Box marginLeft={1}>Teams</Box>
-            </Box>
-          </Link>
-        </Box> */}
       </Box>
     );
   }

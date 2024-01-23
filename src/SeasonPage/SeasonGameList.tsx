@@ -83,7 +83,13 @@ export default function SeasonGameList(props: SeasonGameListProps) {
 
   return (
     <Box display="flex">
-      <Box display="flex" flexDirection="column" width={1000} gap={1}>
+      <Box
+        display="flex"
+        flexDirection="column"
+        width={1000}
+        gap={1}
+        margin="auto"
+      >
         <Box width={400}>
           <InputLabel id="labelTeam">Team</InputLabel>
           <Select
