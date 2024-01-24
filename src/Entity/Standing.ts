@@ -27,4 +27,8 @@ export default interface Standing {
   // non-database attributes that are calculated for display
   goalDiff: number;
   pointPercentage: any;
+
+  // attributes from season
+  seasonTitle: string;
+  seasonNumTeams: number;
 }

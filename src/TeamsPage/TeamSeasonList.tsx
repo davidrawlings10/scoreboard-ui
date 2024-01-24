@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { Box } from "@mui/material";
 
-import config from "../config";
 import "../Shared/Table.css";
 import Standing from "../Entity/Standing";
+import Season from "../Entity/Season";
 import { calculatedPointPercentage } from "../Shared/StandingsHelper";
+import { sfetchList } from "../sfetch";
 
 interface SeasonStandingListProps {
   teamId: number;
@@ -14,22 +15,26 @@ export default function SeasonStandingList(props: SeasonStandingListProps) {
   const [standings, setStandings] = useState<Array<Standing>>([]);
 
   useEffect(() => {
-    fetch(
-      config.baseUrl + "/standing/getStandingByTeamId?teamId=" + props.teamId
-    )
-      .then((res) => res.json())
-      .then((standingsResult) => {
-        let standingsList: Standing[] = standingsResult.list;
-        standingsList.forEach((standing: Standing) => {
-          standing.goalDiff = standing.gf - standing.ga;
-          standing.pointPercentage = calculatedPointPercentage(
-            standing.point,
-            standing.gp
-          );
-        });
-
-        setStandings(standingsResult.list);
+    Promise.all([
+      sfetchList(`/standing/getStandingByTeamId?teamId=${props.teamId}`),
+      sfetchList("/season/getSeasons?league=AVES&sport=HOCKEY"),
+    ]).then((result) => {
+      const standingsList: Standing[] = result[0];
+      const seasonList: Season[] = result[1];
+      standingsList.forEach((standing: Standing) => {
+        standing.goalDiff = standing.gf - standing.ga;
+        standing.pointPercentage = calculatedPointPercentage(
+          standing.point,
+          standing.gp
+        );
+        const season: Season | undefined = seasonList.find(
+          (season) => season.id === standing.seasonId
+        );
+        standing.seasonTitle = season ? season.title : "season not found";
+        standing.seasonNumTeams = season ? season.numTeams : -1;
       });
+      setStandings(standingsList);
+    });
   }, [props.teamId]);
 
   /*function calculatedPointPercentage(point: number, gp: number) { `1
@@ -51,7 +56,9 @@ export default function SeasonStandingList(props: SeasonStandingListProps) {
       <table>
         <thead>
           <tr>
-            <th>id</th>
+            <th title="Season Title">Season</th>
+            <th title="Rank in season">R</th>
+            <th title="Number of teams in the season">#T</th>
             <th title="Points">PTS</th>
             <th title="Games Played">GP</th>
             <th title="Win">W</th>
@@ -67,13 +74,17 @@ export default function SeasonStandingList(props: SeasonStandingListProps) {
             <th title="Away Games Played">AGP</th>
             <th title="Away Points">Away</th>
             <th title="Point Percentage">PP</th>
-            <th>r</th>
           </tr>
         </thead>
         <tbody>
-          {standings.map((standing: Standing, index: number) => (
-            <tr key={standing.id}>
-              <th>{standing.seasonId}</th>
+          {standings.map((standing: Standing) => (
+            <tr
+              key={standing.id}
+              style={{ background: standing.ranking === 1 ? "darkorange" : "" }}
+            >
+              <td>{standing.seasonTitle}</td>
+              <td>{standing.ranking}</td>
+              <td>{standing.seasonNumTeams}</td>
               <td>{standing.point}</td>
               <td>{standing.gp}</td>
               <td>{standing.win}</td>
@@ -93,7 +104,6 @@ export default function SeasonStandingList(props: SeasonStandingListProps) {
                 {standing.awayWin}-{standing.awayLoss}-{standing.awayOtloss}
               </td>
               <td>{standing.pointPercentage}%</td>
-              <td>{standing.ranking}</td>
             </tr>
           ))}
         </tbody>

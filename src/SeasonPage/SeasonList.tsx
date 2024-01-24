@@ -51,7 +51,7 @@ export default function SeasonList(props: SeasonListProps) {
   return (
     <Box display="flex" flexDirection="column" justifyContent="center">
       <Box
-        width={800}
+        width={1200}
         display="flex"
         flexDirection="column"
         justifyContent="center"
