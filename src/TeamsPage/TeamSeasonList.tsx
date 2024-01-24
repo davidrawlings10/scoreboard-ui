@@ -5,6 +5,7 @@ import "../Shared/Table.css";
 import Standing from "../Entity/Standing";
 import Season from "../Entity/Season";
 import { calculatedPointPercentage } from "../Shared/StandingsHelper";
+import TeamDisplay from "../Shared/TeamDisplay/TeamDisplay";
 import { sfetchList } from "../sfetch";
 
 interface SeasonStandingListProps {
@@ -32,6 +33,7 @@ export default function SeasonStandingList(props: SeasonStandingListProps) {
         );
         standing.seasonTitle = season ? season.title : "season not found";
         standing.seasonNumTeams = season ? season.numTeams : -1;
+        standing.winnerTeamId = season ? season.winnerTeamId : -1;
       });
       setStandings(standingsList);
     });
@@ -59,6 +61,7 @@ export default function SeasonStandingList(props: SeasonStandingListProps) {
             <th title="Season Title">Season</th>
             <th title="Rank in season">R</th>
             <th title="Number of teams in the season">#T</th>
+            <th title="Season Winner">Winner</th>
             <th title="Points">PTS</th>
             <th title="Games Played">GP</th>
             <th title="Win">W</th>
@@ -80,11 +83,17 @@ export default function SeasonStandingList(props: SeasonStandingListProps) {
           {standings.map((standing: Standing) => (
             <tr
               key={standing.id}
-              style={{ background: standing.ranking === 1 ? "darkorange" : "" }}
+              style={{
+                background:
+                  standing.winnerTeamId === props.teamId ? "darkorange" : "",
+              }}
             >
               <td>{standing.seasonTitle}</td>
               <td>{standing.ranking}</td>
               <td>{standing.seasonNumTeams}</td>
+              <td>
+                <TeamDisplay id={standing.winnerTeamId} />
+              </td>
               <td>{standing.point}</td>
               <td>{standing.gp}</td>
               <td>{standing.win}</td>

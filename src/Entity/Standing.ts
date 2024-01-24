@@ -31,4 +31,5 @@ export default interface Standing {
   // attributes from season
   seasonTitle: string;
   seasonNumTeams: number;
+  winnerTeamId: number;
 }
