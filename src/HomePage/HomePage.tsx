@@ -1,5 +1,5 @@
-import React from "react";
-import { Box, Drawer } from "@mui/material";
+import { useState, useEffect, useCallback } from "react";
+import { Box } from "@mui/material";
 
 import config from "../config";
 import Scoreboard from "./Scoreboard";
@@ -12,43 +12,65 @@ import ScoreboardControls from "./ScoreboardControls";
 import CurrentGameList from "./CurrentGameList";
 
 export default function HomePage() {
-  const [currentGames, setCurrentGames] = React.useState(Array<Game>());
-  const [finishedGames, setFinishedGames] = React.useState(Array<Game>());
-  const [displayGameId, setDisplayGameId] = React.useState<number | null>(null);
-  const [displayGame, setDisplayGame] = React.useState<Game | null>(null);
-  const [gameEvents, setGameEvents] = React.useState(Array<GameEvent>());
-  const [drawerMenuOpen, setDrawerMenuOpen] = React.useState<boolean>(false);
+  const [currentGames, setCurrentGames] = useState(Array<Game>());
+  const [finishedGames, setFinishedGames] = useState(Array<Game>());
+  const [displayGameId, setDisplayGameId] = useState<number | null>(null);
+  const [displayGame, setDisplayGame] = useState<Game | null>(null);
+  const [gameEvents, setGameEvents] = useState(Array<GameEvent>());
 
-  const [running, setRunning] = React.useState(false);
-  const [millisecondsPerTick, setMillisecondsPerTick] =
-    React.useState<number>(0);
-  const [gamesToPlay, setGamesToPlay] = React.useState<number>(0);
+  const [running, setRunning] = useState(false);
+  const [millisecondsPerTick, setMillisecondsPerTick] = useState<number>(0);
+  const [gamesToPlay, setGamesToPlay] = useState<number>(0);
   const [gamesPlayingConcurrently, setGamesPlayingConcurrently] =
-    React.useState<number>(0);
+    useState<number>(0);
 
-  const [timerId, setTimerId] = React.useState<any>(null);
-
-  function getScoreboardState() {
+  const getScoreboardState = useCallback(() => {
     fetch(config.baseUrl + "/game/getScoreboardState")
       .then((res) => res.json())
       .then((json) => {
         setCurrentGames(json.games);
-        setFinishedGames(json.finishedGames);
-        setRunning(json.running);
-        setMillisecondsPerTick(json.tickMilliseconds);
-        setGamesToPlay(json.gamesToPlay);
-        setGamesPlayingConcurrently(json.gamesPlayingConcurrently);
+        if (finishedGames.length !== json.finishedGames.length) {
+          setFinishedGames(json.finishedGames);
+        }
+        if (running !== json.running) {
+          setRunning(json.running);
+        }
+        if (millisecondsPerTick !== json.tickMilliseconds) {
+          setMillisecondsPerTick(json.tickMilliseconds);
+        }
+        if (gamesToPlay !== json.gamesToPlay) {
+          setGamesToPlay(json.gamesToPlay);
+        }
+        if (gamesPlayingConcurrently !== json.gamesPlayingConcurrently) {
+          setGamesPlayingConcurrently(json.gamesPlayingConcurrently);
+        }
       });
-  }
+  }, [
+    finishedGames.length,
+    gamesPlayingConcurrently,
+    gamesToPlay,
+    millisecondsPerTick,
+    running,
+  ]);
 
-  const updateDisplayGameId = React.useCallback((): void => {
+  const getGameEvents = useCallback((): void => {
+    if (displayGameId) {
+      fetch(config.baseUrl + "/gameEvent/getByGameId?gameId=" + displayGameId)
+        .then((res) => res.json())
+        .then((json) => {
+          setGameEvents(json.list);
+        });
+    }
+  }, [displayGameId]);
+
+  const updateDisplayGameId = useCallback((): void => {
     if (currentGames.concat(finishedGames).length > 0) {
       setDisplayGameId(currentGames.concat(finishedGames)[0].id);
     }
   }, []);
 
-  React.useEffect(() => {
-    if (!!displayGameId) {
+  useEffect(() => {
+    if (displayGameId) {
       currentGames.concat(finishedGames).forEach((game: Game) => {
         if (game.id === displayGameId) {
           setDisplayGame(game);
@@ -60,46 +82,37 @@ export default function HomePage() {
   }, [displayGameId, currentGames, finishedGames, updateDisplayGameId]);
 
   // if the number of current games changes we should reset the display game to the first game in the list
-  React.useEffect(() => {
+  useEffect(() => {
     updateDisplayGameId();
   }, [currentGames.length]);
 
-  React.useEffect(() => {
-    if (!timerId) {
-      setTimerId(
-        setInterval(
-          () => getScoreboardState(),
-          // every 1000ms is the most frequent we should get new scoreboard state even if the game tick is running faster than this
-          Math.max(millisecondsPerTick, 1000)
-        )
-      );
-    }
-
-    console.log("timerId", timerId);
+  useEffect(() => {
+    const intervalId = setInterval(
+      () => getScoreboardState(),
+      // 100ms is how frequent we will get new scoreboard state even if the game tick is running faster than this
+      Math.max(millisecondsPerTick, 100)
+    );
 
     return function cleanup() {
-      if (timerId) {
-        clearInterval(timerId);
-        setTimerId(null);
-      }
+      clearInterval(intervalId);
     };
-  }, [millisecondsPerTick]);
+  }, [millisecondsPerTick, getScoreboardState]);
 
   // request game events for the displayed game (on every new state for now until caching can be implemented)
-  React.useEffect(() => {
-    if (
-      (currentGames.length === 0 && finishedGames.length === 0) ||
-      !displayGame
-    ) {
-      return;
-    }
+  useEffect(() => {
+    // if (
+    //   (currentGames.length === 0 && finishedGames.length === 0) ||
+    //   !displayGame
+    // ) {
+    //   return;
+    // }
 
-    fetch(config.baseUrl + "/gameEvent/getByGameId?gameId=" + displayGame.id)
-      .then((res) => res.json())
-      .then((json) => {
-        setGameEvents(json.list);
-      });
-  }, [displayGame, currentGames, finishedGames]);
+    const intervalId = setInterval(() => getGameEvents(), 1000);
+
+    return function cleanup() {
+      clearInterval(intervalId);
+    };
+  }, [getGameEvents]);
 
   const handleRunningChange = (value: boolean) => {
     if (running) {
@@ -111,7 +124,7 @@ export default function HomePage() {
   };
 
   const [scoreboardControlsDialogOpen, setScoreboardControlsDialogOpen] =
-    React.useState(false);
+    useState(false);
 
   const handleScoreboardControlsDialogOpen = () => {
     setScoreboardControlsDialogOpen(true);
@@ -179,8 +192,6 @@ export default function HomePage() {
         gamesPlayingConcurrently={gamesPlayingConcurrently}
         millisecondsPerTick={millisecondsPerTick}
       />
-
-      <Drawer open={drawerMenuOpen}>yoyo</Drawer>
     </>
   );
 }
