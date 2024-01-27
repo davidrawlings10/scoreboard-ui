@@ -64,8 +64,11 @@ import KrakenLogo from "../../images/logos/teams/nhl/KrakenLogo.svg";
 import CanucksLogo from "../../images/logos/teams/nhl/CanucksLogo.svg";
 import GoldenKnightsLogo from "../../images/logos/teams/nhl/GoldenKnightsLogo.svg";
 
+import BuffaloBillsLogo from "../../images/logos/teams/nfl/BuffaloBillsLogo.svg";
+import DenverBroncosLogo from "../../images/logos/teams/nfl/DenverBroncosLogo.svg";
 import KansasCityChiefsLogo from "../../images/logos/teams/nfl/KansasCityChiefsLogo.svg";
 import LosAngelesChargersLogo from "../../images/logos/teams/nfl/LosAngelesChargersLogo.svg";
+import LasVegasRaidersLogo from "../../images/logos/teams/nfl/LasVegasRaidersLogo.svg";
 
 import BaylorBearsLogo from "../../images/logos/teams/ncaa/BaylorBearsLogo.svg";
 import IowaStateCyclonesLogo from "../../images/logos/teams/ncaa/IowaStateCyclonesLogo.svg";
@@ -77,6 +80,20 @@ import TCUHornedFrogsLogo from "../../images/logos/teams/ncaa/TCUHornedFrogsLogo
 import TexasLonghornsLogo from "../../images/logos/teams/ncaa/TexasLonghornsLogo.svg";
 import TexasTechRedRaidersLogo from "../../images/logos/teams/ncaa/TexasTechRedRaidersLogo.svg";
 import WestVirginiaMountaineersLogo from "../../images/logos/teams/ncaa/WestVirginiaMountaineersLogo.svg";
+import AlabamaCrimsonTideLogo from "../../images/logos/teams/ncaa/AlabamaCrimsonTideLogo.svg";
+import ArkansasRazorbacksLogo from "../../images/logos/teams/ncaa/ArkansasRazorbacksLogo.svg";
+import AuburnTigersLogo from "../../images/logos/teams/ncaa/AuburnTigersLogo.svg";
+import FloridaGatorsLogo from "../../images/logos/teams/ncaa/FloridaGatorsLogo.svg";
+import GeorgiaBulldogsLogo from "../../images/logos/teams/ncaa/GeorgiaBulldogsLogo.svg";
+import KentuckyWildcatsLogo from "../../images/logos/teams/ncaa/KentuckyWildcatsLogo.svg";
+import LSUTigersLogo from "../../images/logos/teams/ncaa/LSUTigersLogo.svg";
+import MississippiStateBulldogsLogo from "../../images/logos/teams/ncaa/MississippiStateBulldogsLogo.svg";
+import MissouriTigersLogo from "../../images/logos/teams/ncaa/MissouriTigersLogo.svg";
+import OleMissRebelsLogo from "../../images/logos/teams/ncaa/OleMissRebelsLogo.svg";
+import SouthCarolinaGamecocksLogo from "../../images/logos/teams/ncaa/SouthCarolinaGamecocksLogo.svg";
+import TennesseeVolunteersLogo from "../../images/logos/teams/ncaa/TennesseeVolunteersLogo.svg";
+import TexasAMAggiesLogo from "../../images/logos/teams/ncaa/TexasAMAggiesLogo.svg";
+import VanderbiltCommodoresLogo from "../../images/logos/teams/ncaa/VanderbiltCommodoresLogo.svg";
 
 interface TeamLogoProps {
   id: number;
@@ -217,10 +234,16 @@ function getTeamLogo(id: number) {
       return CanucksLogo;
     case 64:
       return GoldenKnightsLogo;
+    case 97:
+      return BuffaloBillsLogo;
+    case 109:
+      return DenverBroncosLogo;
     case 110:
       return KansasCityChiefsLogo;
     case 111:
       return LosAngelesChargersLogo;
+    case 112:
+      return LasVegasRaidersLogo;
     case 129:
       return BaylorBearsLogo;
     case 130:
@@ -241,6 +264,34 @@ function getTeamLogo(id: number) {
       return TexasTechRedRaidersLogo;
     case 138:
       return WestVirginiaMountaineersLogo;
+    case 139:
+      return AlabamaCrimsonTideLogo;
+    case 140:
+      return ArkansasRazorbacksLogo;
+    case 141:
+      return AuburnTigersLogo;
+    case 142:
+      return FloridaGatorsLogo;
+    case 143:
+      return GeorgiaBulldogsLogo;
+    case 144:
+      return KentuckyWildcatsLogo;
+    case 145:
+      return LSUTigersLogo;
+    case 146:
+      return MississippiStateBulldogsLogo;
+    case 147:
+      return MissouriTigersLogo;
+    case 148:
+      return OleMissRebelsLogo;
+    case 149:
+      return SouthCarolinaGamecocksLogo;
+    case 150:
+      return TennesseeVolunteersLogo;
+    case 151:
+      return TexasAMAggiesLogo;
+    case 152:
+      return VanderbiltCommodoresLogo;
     default:
       return undefined;
   }

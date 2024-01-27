@@ -65,16 +65,20 @@ export default function HomePage() {
   }, [currentGames.length]);
 
   React.useEffect(() => {
-    setTimerId(
-      setInterval(
-        () => getScoreboardState(),
-        // every 1000ms is the most frequent we should get new scoreboard state even if the game tick is running faster than this
-        Math.max(millisecondsPerTick, 1000)
-      )
-    );
+    if (!timerId) {
+      setTimerId(
+        setInterval(
+          () => getScoreboardState(),
+          // every 1000ms is the most frequent we should get new scoreboard state even if the game tick is running faster than this
+          Math.max(millisecondsPerTick, 1000)
+        )
+      );
+    }
+
+    console.log("timerId", timerId);
 
     return function cleanup() {
-      if (!!timerId) {
+      if (timerId) {
         clearInterval(timerId);
         setTimerId(null);
       }

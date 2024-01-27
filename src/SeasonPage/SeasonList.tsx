@@ -8,6 +8,7 @@ import "../Shared/Table.css";
 import Season from "../Entity/Season";
 import TeamDisplay from "../Shared/TeamDisplay/TeamDisplay";
 import LeagueDisplay from "../Shared/LeagueDisplay/LeagueDisplay";
+import SportDisplay from "../Shared/SportDisplay/SportDisplay";
 import SimpleSelect from "../Shared/SimpleSelect";
 
 export type SeasonListProps = { viewSeason: (seasonId: number) => void };
@@ -51,7 +52,7 @@ export default function SeasonList(props: SeasonListProps) {
   return (
     <Box display="flex" flexDirection="column" justifyContent="center">
       <Box
-        width={1200}
+        width={1400}
         display="flex"
         flexDirection="column"
         justifyContent="center"
@@ -81,6 +82,7 @@ export default function SeasonList(props: SeasonListProps) {
               <tr>
                 <th>Name</th>
                 <th>League</th>
+                <th>Sport</th>
                 <th>Winner</th>
                 <th>Teams</th>
                 <th>Schedule</th>
@@ -97,6 +99,9 @@ export default function SeasonList(props: SeasonListProps) {
                   <td>{season.title}</td>
                   <td>
                     <LeagueDisplay value={season.league} />
+                  </td>
+                  <td>
+                    <SportDisplay value={season.sport} />
                   </td>
                   <td>
                     <TeamDisplay id={season.winnerTeamId} />

@@ -10,6 +10,7 @@ import TeamDisplay from "../Shared/TeamDisplay/TeamDisplay";
 import GameClockDisplay from "../Shared/GameClockDisplay";
 import Game from "../Entity/Game";
 import ConfirmationDialog from "./ConfirmationDialog";
+import SportLogo from "../Shared/SportDisplay/SportLogo";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,6 +26,7 @@ interface ScoreboardRowProps {
   score: number;
   small?: boolean;
   possession?: boolean;
+  sport: string;
 }
 
 function ScoreboardRow({
@@ -32,6 +34,7 @@ function ScoreboardRow({
   score,
   small,
   possession,
+  sport,
 }: ScoreboardRowProps) {
   return (
     <Box display="flex" flexDirection="row">
@@ -41,9 +44,10 @@ function ScoreboardRow({
         width="85%"
         display="flex"
         flexDirection="row"
+        justifyContent="space-between"
       >
         <TeamDisplay id={teamId} hideLocation={small} />
-        {/*possession && " p"*/}
+        {possession && <SportLogo value={sport} />}
       </Box>
       <Box
         border="1px solid black"
@@ -105,12 +109,14 @@ export default function Scoreboard(props: ScoreboardProps) {
               score={props.game.homeScore}
               small={props.small}
               possession={props.game.homeHasPossession}
+              sport={props.game.sport}
             />
             <ScoreboardRow
               teamId={props.game.awayTeamId}
               score={props.game.awayScore}
               small={props.small}
               possession={!props.game.homeHasPossession}
+              sport={props.game.sport}
             />
             <Box border="1px solid black" p={1}>
               <Box display="flex" flexDirection="row">

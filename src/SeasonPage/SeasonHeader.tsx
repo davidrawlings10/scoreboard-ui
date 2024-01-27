@@ -3,6 +3,8 @@ import { Box } from "@mui/material";
 import config from "../config";
 import Season from "../Entity/Season";
 import TeamDisplay from "../Shared/TeamDisplay/TeamDisplay";
+import LeagueDisplay from "../Shared/LeagueDisplay/LeagueDisplay";
+import SportDisplay from "../Shared/SportDisplay/SportDisplay";
 import { useState, useEffect } from "react";
 
 export type SeasonHeaderProps = {
@@ -59,7 +61,20 @@ export default function SeasonHeader(props: SeasonHeaderProps) {
               justifyContent="center"
             >
               <Box>League</Box>
-              <Box>{season.league}</Box>
+              <Box>
+                <LeagueDisplay value={season.league} />
+              </Box>
+            </Box>
+            <Box
+              marginRight={6}
+              display="flex"
+              flexDirection="column"
+              justifyContent="center"
+            >
+              <Box>Sport</Box>
+              <Box>
+                <SportDisplay value={season.sport} />
+              </Box>
             </Box>
             <Box
               marginRight={6}

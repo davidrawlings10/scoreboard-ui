@@ -6,6 +6,7 @@ export default interface Season {
   summary: string;
   winnerTeamId: number;
   league: string;
+  sport: string;
   numTeams: number;
   scheduleType: string;
 }
