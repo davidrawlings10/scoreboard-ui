@@ -3,13 +3,13 @@ import { Box, ThemeProvider, Button } from "@mui/material";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 import theme from "./theme";
-import NavBar from "./NavBar";
-import HomePage from "./HomePage/HomePage";
-import SeasonPage from "./SeasonPage/SeasonPage";
-import StartGameForm from "./StartGameForm";
-import ScheduleSeasonForm from "./ScheduleSeasonForm";
-import TeamsPage from "./TeamsPage/TeamsPage";
-import TeamDetail from "./TeamsPage/TeamDetail";
+import NavBar from "./components/NavBar";
+import HomePage from "./components/home/HomePage";
+import SeasonPage from "./components/season/SeasonPage";
+import StartGameForm from "./components/StartGameForm";
+import ScheduleSeasonForm from "./components/ScheduleSeasonForm";
+import TeamsPage from "./components/teams/TeamsPage";
+import TeamDetail from "./components/teams/TeamDetail";
 
 const App = () => {
   return (
