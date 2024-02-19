@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { Box } from "@mui/material";
+import { Box, FormControlLabel, Switch } from "@mui/material";
 
 import config from "../../config";
 import Scoreboard from "./Scoreboard";
@@ -17,12 +17,16 @@ export default function HomePage() {
   const [displayGameId, setDisplayGameId] = useState<number | null>(null);
   const [displayGame, setDisplayGame] = useState<Game | null>(null);
   const [gameEvents, setGameEvents] = useState(Array<GameEvent>());
+  const [excludePossessionEnded, setExcludePossessionEnded] =
+    useState<boolean>(true);
 
   const [running, setRunning] = useState(false);
   const [millisecondsPerTick, setMillisecondsPerTick] = useState<number>(0);
   const [gamesToPlay, setGamesToPlay] = useState<number>(0);
   const [gamesPlayingConcurrently, setGamesPlayingConcurrently] =
     useState<number>(0);
+
+  console.log("excludePossessionEnded", excludePossessionEnded);
 
   const getScoreboardState = useCallback(() => {
     fetch(config.baseUrl + "/game/getScoreboardState")
@@ -55,13 +59,15 @@ export default function HomePage() {
 
   const getGameEvents = useCallback((): void => {
     if (displayGameId) {
-      fetch(config.baseUrl + "/gameEvent/getByGameId?gameId=" + displayGameId)
+      fetch(
+        `${config.baseUrl}/gameEvent/getByGameId?gameId=${displayGameId}&excludePossessionEnded=${excludePossessionEnded}`
+      )
         .then((res) => res.json())
         .then((json) => {
           setGameEvents(json.list);
         });
     }
-  }, [displayGameId]);
+  }, [displayGameId, excludePossessionEnded]);
 
   const updateDisplayGameId = useCallback((): void => {
     if (currentGames.concat(finishedGames).length > 0) {
@@ -165,11 +171,26 @@ export default function HomePage() {
           )}
         </Box>
         {/* show game events for display game  */}
+
         <Box marginTop={4}>
           {currentGames.concat(finishedGames).length > 0 &&
             gameEvents.length > 0 &&
             !!displayGame && (
-              <GameEventList gameEvents={gameEvents} game={displayGame} />
+              <Box alignItems="center" flexDirection="column">
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={excludePossessionEnded}
+                      onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                        setExcludePossessionEnded(event.target.checked)
+                      }
+                    />
+                  }
+                  label="Exclude Possession"
+                  labelPlacement="start"
+                />
+                <GameEventList gameEvents={gameEvents} game={displayGame} />
+              </Box>
             )}
         </Box>
         <Box marginTop={4}>

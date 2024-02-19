@@ -30,7 +30,7 @@ export default function GameEventList(props: GameEventListProps) {
   return (
     <Box display="flex" justifyContent="center" mb={10}>
       <Box
-        width={800}
+        width={900}
         bgcolor="primary.main"
         border="1px solid black"
         display="flex"
@@ -127,6 +127,7 @@ export default function GameEventList(props: GameEventListProps) {
                 >
                   {capitalize(
                     gameEvent.eventType
+                      .replace("HOCKEY", "")
                       .replace("BASKETBALL", "")
                       .replaceAll("_", " ")
                       .trim()

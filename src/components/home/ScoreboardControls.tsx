@@ -58,31 +58,27 @@ export default function ScoreboardControls(props: ScoreboardControlsProps) {
             labelPlacement="start"
           />
         </Box>
+        <Box display="flex" flexDirection="row" alignItems="center">
+          {fullDisplay && <Box marginRight={1}>Milliseconds Per Tick</Box>}
+          <Box width={fullDisplay ? 200 : 100}>
+            {getList(millisecondsPerTick).map((milliseconds: number) => (
+              <Chip
+                label={milliseconds}
+                variant={
+                  millisecondsPerTick === milliseconds ? "default" : "outlined"
+                }
+                color={
+                  millisecondsPerTick === milliseconds ? "primary" : "default"
+                }
+                onClick={() => {
+                  updateMillisecondsPerTick(milliseconds);
+                }}
+              />
+            ))}
+          </Box>
+        </Box>
         {fullDisplay && (
           <>
-            <Box display="flex" flexDirection="row" alignItems="center">
-              <Box marginRight={1}>Milliseconds Per Tick</Box>
-              <Box>
-                {getList(millisecondsPerTick).map((milliseconds: number) => (
-                  <Chip
-                    label={milliseconds}
-                    variant={
-                      millisecondsPerTick === milliseconds
-                        ? "default"
-                        : "outlined"
-                    }
-                    color={
-                      millisecondsPerTick === milliseconds
-                        ? "primary"
-                        : "default"
-                    }
-                    onClick={() => {
-                      updateMillisecondsPerTick(milliseconds);
-                    }}
-                  />
-                ))}
-              </Box>
-            </Box>
             <Box display="flex" flexDirection="row" alignItems="center">
               <Box marginRight={1}>Number of Games to Play</Box>
               <Box>
