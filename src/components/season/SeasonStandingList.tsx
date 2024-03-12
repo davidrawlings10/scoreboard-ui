@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Box } from "@mui/material";
+import { Box, TextField, Button } from "@mui/material";
 
 import config from "../../config";
 import "../Shared/Table.css";
@@ -15,7 +15,20 @@ interface SeasonStandingListProps {
 
 export default function SeasonStandingList(props: SeasonStandingListProps) {
   const [standings, setStandings] = useState<Array<Standing>>([]);
+  const [editRankingTeamId, setEditRankingTeamId] = useState<
+    number | undefined
+  >(undefined);
+  const [rankingValue, setRankingValue] = useState<number | undefined>(
+    undefined
+  );
   const { Th, sortTable } = sortableTable();
+
+  function handleRankingUpdate(standing: Standing) {
+    console.log(
+      `updating team ${standing.teamId} to ranking ${rankingValue} for standing ${standing.id}`
+    );
+    setEditRankingTeamId(undefined);
+  }
 
   useEffect(() => {
     fetch(config.baseUrl + "/standing/get?seasonId=" + props.seasonId)
@@ -32,6 +45,7 @@ export default function SeasonStandingList(props: SeasonStandingListProps) {
 
         setStandings(standingsResult.list);
       });
+    setEditRankingTeamId(undefined);
   }, [props.seasonId, props.numGames?.current, props.numGames?.finished]);
 
   /*function calculatedPointPercentage(point: number, gp: number) { `1
@@ -127,11 +141,35 @@ export default function SeasonStandingList(props: SeasonStandingListProps) {
               </td>
               <td>{standing.pointPercentage}%</td>
               <td
-                onClick={() => console.log("here yo")}
+                onClick={() => {
+                  setEditRankingTeamId(standing.teamId);
+                  setRankingValue(standing.ranking);
+                }}
                 style={{ cursor: "pointer" }}
                 title="click to modify offical ranking"
               >
-                {standing.ranking}
+                {editRankingTeamId === standing.teamId ? (
+                  <Box display="flex" flexDirection="row" gap={1}>
+                    <TextField
+                      size="small"
+                      sx={{ width: 50 }}
+                      value={rankingValue}
+                      onChange={(event) =>
+                        setRankingValue(parseInt(event?.target.value))
+                      }
+                    />
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      onClick={() => handleRankingUpdate(standing)}
+                      disabled={standing.ranking === rankingValue}
+                    >
+                      Save
+                    </Button>
+                  </Box>
+                ) : (
+                  standing.ranking
+                )}
               </td>
             </tr>
           ))}

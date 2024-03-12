@@ -4,6 +4,7 @@ import { AddToQueue } from "@mui/icons-material";
 import { makeStyles } from "@mui/styles";
 
 import config from "../../config";
+import { sfetchList } from "../../sfetch";
 import "../Shared/Table.css";
 import Season from "../../types/Season";
 import TeamDisplay from "../shared/TeamDisplay/TeamDisplay";
@@ -26,16 +27,17 @@ export default function SeasonList(props: SeasonListProps) {
 
   const [seasons, setSeasons] = useState<Array<Season>>([]);
 
-  const [sport, setSport] = useState<string | undefined>("");
-  const [league, setLeague] = useState<string | undefined>("");
+  const [sport, setSport] = useState<string | undefined>("HOCKEY");
+  const [league, setLeague] = useState<string | undefined>("AVES");
 
   useEffect(() => {
-    fetch(config.baseUrl + "/season/getSeasons?league=AVES&sport=HOCKEY")
-      .then((res) => res.json())
-      .then((seasonsResult) => {
-        setSeasons(seasonsResult.list);
-      });
-  }, []);
+    sfetchList(`/season/getSeasons?league=${league}&sport=${sport}`)
+      // .then((res) => res.json())
+      // .then((seasonsResult) => {
+      //   setSeasons(seasonsResult.list);
+      // });
+      .then((result) => setSeasons(result));
+  }, [sport, league]);
 
   function viewSeason(seasonId: number) {
     props.viewSeason(seasonId);

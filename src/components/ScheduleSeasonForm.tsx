@@ -166,6 +166,9 @@ export default function ScheduleSeasonForm(props: ScheduleSeasonFormProps) {
                   <MenuItem id="ROUNDS" value="ROUNDS">
                     Rounds
                   </MenuItem>
+                  <MenuItem id="NONE" value="NONE">
+                    None
+                  </MenuItem>
                 </Select>
               </Box>
               {showNumGamesInput && (

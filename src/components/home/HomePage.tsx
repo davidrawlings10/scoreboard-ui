@@ -75,6 +75,10 @@ export default function HomePage() {
     }
   }, []);
 
+  const handleExcludePossessionEndedChanged = (value: boolean) => {
+    setExcludePossessionEnded(value);
+  };
+
   useEffect(() => {
     if (displayGameId) {
       currentGames.concat(finishedGames).forEach((game: Game) => {
@@ -177,19 +181,14 @@ export default function HomePage() {
             gameEvents.length > 0 &&
             !!displayGame && (
               <Box alignItems="center" flexDirection="column">
-                <FormControlLabel
-                  control={
-                    <Switch
-                      checked={excludePossessionEnded}
-                      onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                        setExcludePossessionEnded(event.target.checked)
-                      }
-                    />
+                <GameEventList
+                  gameEvents={gameEvents}
+                  game={displayGame}
+                  excludePossessionEnded={excludePossessionEnded}
+                  handleExcludePossessionEndedChanged={
+                    handleExcludePossessionEndedChanged
                   }
-                  label="Exclude Possession"
-                  labelPlacement="start"
                 />
-                <GameEventList gameEvents={gameEvents} game={displayGame} />
               </Box>
             )}
         </Box>

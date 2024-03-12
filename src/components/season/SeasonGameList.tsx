@@ -15,13 +15,14 @@ export type SeasonGameListProps = {
   numGames: { current: number; finished: number } | null;
 };
 
-export default function SeasonGameList(props: SeasonGameListProps) {
-  const PAGE_SIZE = 20;
+const PAGE_SIZE = 20;
 
+export default function SeasonGameList(props: SeasonGameListProps) {
   const [games, setGames] = useState<Array<Game>>([]);
   const [page, setPage] = useState<number>(1);
   const [teamIds, setTeamIds] = useState<Array<number>>([]);
   const [teamIdFilter, setTeamIdFilter] = useState<number | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     setTeamIdFilter(null);
@@ -34,6 +35,12 @@ export default function SeasonGameList(props: SeasonGameListProps) {
       .then((res) => res.json())
       .then((gamesResult) => {
         setGames(gamesResult.list);
+        // let x = null;
+        // let y = x.a;
+      })
+      .catch((error) => {
+        console.log("error is", error);
+        setError("big fat error");
       });
   }, [
     props.seasonId,
@@ -80,6 +87,10 @@ export default function SeasonGameList(props: SeasonGameListProps) {
   ) => {
     setPage(value);
   };
+
+  if (error) {
+    return <Box bgcolor="red">{error}</Box>;
+  }
 
   return (
     <Box display="flex">
