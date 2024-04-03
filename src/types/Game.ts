@@ -8,7 +8,8 @@ export default interface Game {
   homeScore: number;
   awayScore: number;
   endingPeriod: number;
-  sport: "HOCKEY" | "SOCCER";
+  sport: Sport;
+  sportInfo: SportInfo;
   status: "SCHEDULED" | "PLAYING" | "FINAL";
   clock: Clock;
   teamAlreadyPlaying: "NONE" | "HOME" | "AWAY" | "BOTH";
@@ -22,3 +23,9 @@ export interface Clock {
   intermission: boolean;
   final: boolean;
 }
+
+export type SportInfo = {
+  ending_PERIOD: number;
+};
+
+export type Sport = "HOCKEY" | "SOCCER";

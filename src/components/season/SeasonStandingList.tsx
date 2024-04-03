@@ -7,6 +7,8 @@ import TeamDisplay from "../shared/TeamDisplay/TeamDisplay";
 import Standing from "../../types/Standing";
 import sortableTable from "../shared/SortableTable";
 import { calculatedPointPercentage } from "../shared/StandingsHelper";
+import { Sport } from "../../types/Game";
+import Season from "../../types/Season";
 
 interface SeasonStandingListProps {
   seasonId: number;
@@ -21,6 +23,7 @@ export default function SeasonStandingList(props: SeasonStandingListProps) {
   const [rankingValue, setRankingValue] = useState<number | undefined>(
     undefined
   );
+  const [sportIsHockey, setSportIsHockey] = useState<boolean>();
   const { Th, sortTable } = sortableTable();
 
   function handleRankingUpdate(standing: Standing) {
@@ -48,6 +51,14 @@ export default function SeasonStandingList(props: SeasonStandingListProps) {
     setEditRankingTeamId(undefined);
   }, [props.seasonId, props.numGames?.current, props.numGames?.finished]);
 
+  useEffect(() => {
+    fetch(`${config.baseUrl}/season/findById?seasonId=${props.seasonId}`)
+      .then((res) => res.json())
+      .then((json: Season) => {
+        setSportIsHockey(json.sport === "HOCKEY");
+      });
+  }, [props.seasonId]);
+
   /*function calculatedPointPercentage(point: number, gp: number) { `1
     if (point === 0 || gp === 0) {
       return 0;
@@ -70,9 +81,11 @@ export default function SeasonStandingList(props: SeasonStandingListProps) {
           <tr>
             <th></th>
             <th>Team</th>
-            <Th attribute="point" title="Points">
-              PTS
-            </Th>
+            {sportIsHockey && (
+              <Th attribute="point" title="Points">
+                PTS
+              </Th>
+            )}
             <Th attribute="gp" title="Games Played">
               GP
             </Th>
@@ -82,34 +95,52 @@ export default function SeasonStandingList(props: SeasonStandingListProps) {
             <Th attribute="loss" title="Loss">
               L
             </Th>
-            <Th attribute="otloss" title="Overtime Loss">
-              OTL
+            {sportIsHockey && (
+              <Th attribute="otloss" title="Overtime Loss">
+                OTL
+              </Th>
+            )}
+            <Th
+              attribute="gf"
+              title={sportIsHockey ? "Goals For" : "Points For"}
+            >
+              {sportIsHockey ? "GF" : "PF"}
             </Th>
-            <Th attribute="gf" title="Goals For">
-              GF
+            <Th
+              attribute="ga"
+              title={sportIsHockey ? "Goals Against" : "Points Against"}
+            >
+              {sportIsHockey ? "GA" : "PA"}
             </Th>
-            <Th attribute="ga" title="Goals Against">
-              GA
+            <Th
+              attribute="goalDiff"
+              title={sportIsHockey ? "Goal Diff" : "Point Diff"}
+            >
+              {sportIsHockey ? "GD" : "PD"}
             </Th>
-            <Th attribute="goalDiff" title="Goal Diff">
-              GD
-            </Th>
-            <Th attribute="homePoint" title="Home Points">
-              HPTS
-            </Th>
+            {sportIsHockey && (
+              <Th attribute="homePoint" title="Home Points">
+                HPTS
+              </Th>
+            )}
             <Th attribute="homeGp" title="Home Games Played">
               HGP
             </Th>
             <th title="Home Record">Home</th>
-            <Th attribute="awayPoint" title="Away Points">
-              APTS
-            </Th>
+            {sportIsHockey && (
+              <Th attribute="awayPoint" title="Away Points">
+                APTS
+              </Th>
+            )}
             <Th attribute="awayGp" title="Away Games Played">
               AGP
             </Th>
             <th title="Away Points">Away</th>
-            <Th attribute="pointPercentage" title="Point Percentage">
-              PP
+            <Th
+              attribute="pointPercentage"
+              title={sportIsHockey ? "Point Percentage" : "Win Percentage"}
+            >
+              {sportIsHockey ? "P%" : "W%"}
             </Th>
             <th title="Official Rank">R</th>
           </tr>
@@ -121,23 +152,25 @@ export default function SeasonStandingList(props: SeasonStandingListProps) {
               <td>
                 <TeamDisplay id={standing.teamId} />
               </td>
-              <td>{standing.point}</td>
+              {sportIsHockey && <td>{standing.point}</td>}
               <td>{standing.gp}</td>
               <td>{standing.win}</td>
               <td>{standing.loss}</td>
-              <td>{standing.otloss}</td>
+              {sportIsHockey && <td>{standing.otloss}</td>}
               <td>{standing.gf}</td>
               <td>{standing.ga}</td>
               <td>{standing.goalDiff}</td>
-              <td>{standing.homePoint}</td>
+              {sportIsHockey && <td>{standing.homePoint}</td>}
               <td>{standing.homeGp}</td>
               <td>
-                {standing.homeWin}-{standing.homeLoss}-{standing.homeOtloss}
+                {standing.homeWin}-{standing.homeLoss}
+                {sportIsHockey && `-${standing.homeOtloss}`}
               </td>
-              <td>{standing.awayPoint}</td>
+              {sportIsHockey && <td>{standing.awayPoint}</td>}
               <td>{standing.awayGp}</td>
               <td>
-                {standing.awayWin}-{standing.awayLoss}-{standing.awayOtloss}
+                {standing.awayWin}-{standing.awayLoss}
+                {sportIsHockey && `-${standing.awayOtloss}`}
               </td>
               <td>{standing.pointPercentage}%</td>
               <td

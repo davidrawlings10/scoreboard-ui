@@ -216,7 +216,10 @@ export default function SeasonGameList(props: SeasonGameListProps) {
                         }
                       >
                         {game.status === "FINAL" &&
-                          getFinalText(game.endingPeriod)}
+                          getFinalText(
+                            game.endingPeriod,
+                            game.sportInfo.ending_PERIOD
+                          )}
                         {game.status === "PLAYING" && "In Progress"}
                       </td>
                       <td>

@@ -1,16 +1,19 @@
-import Game, { Clock } from "../../types/Game";
+import Game, { Clock, Sport } from "../../types/Game";
 
 // need to feed game.clock.ENDING_PEROID to this
 const hockeyEndingPeriodHARDCODED: number = 3;
 
-export function getFinalText(endingPeriod: number) {
-  let displayText = "Final ";
+export function getFinalText(
+  gameEndingPeriod: number,
+  sportEndingPeriod: number
+) {
+  let displayText: string = "Final ";
 
-  if (endingPeriod >= hockeyEndingPeriodHARDCODED + 2) {
-    displayText += endingPeriod - hockeyEndingPeriodHARDCODED;
+  if (gameEndingPeriod >= sportEndingPeriod + 2) {
+    displayText += gameEndingPeriod - sportEndingPeriod;
   }
 
-  if (endingPeriod >= hockeyEndingPeriodHARDCODED + 1) {
+  if (gameEndingPeriod >= sportEndingPeriod + 1) {
     displayText += "OT";
   }
 

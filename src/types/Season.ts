@@ -1,3 +1,5 @@
+import { Sport } from "./Game";
+
 export default interface Season {
   id: number;
   created: any;
@@ -6,7 +8,7 @@ export default interface Season {
   summary: string;
   winnerTeamId: number;
   league: string;
-  sport: string;
+  sport: Sport;
   numTeams: number;
   scheduleType: string;
 }
