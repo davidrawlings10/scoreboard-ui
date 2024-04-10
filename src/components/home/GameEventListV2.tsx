@@ -130,7 +130,10 @@ export default function GameEventList(props: GameEventListProps) {
                     justifyContent="center"
                     width="20%"
                   >
-                    <ClockDisplay clock={clock} />
+                    <ClockDisplay
+                      clock={clock}
+                      sportEndingPeriod={game.sportInfo.ending_PERIOD}
+                    />
                   </Box>
                   <Box
                     border="1px solid black"

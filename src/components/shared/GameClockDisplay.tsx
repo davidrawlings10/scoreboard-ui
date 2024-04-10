@@ -1,7 +1,4 @@
-import Game, { Clock, Sport } from "../../types/Game";
-
-// need to feed game.clock.ENDING_PEROID to this
-const hockeyEndingPeriodHARDCODED: number = 3;
+import Game, { Clock } from "../../types/Game";
 
 export function getFinalText(
   gameEndingPeriod: number,
@@ -24,9 +21,9 @@ function TimeDisplay(props: Clock) {
   return props.minutes + ":" + ("0" + props.seconds).slice(-2);
 }
 
-function PeriodDisplay(period: number) {
-  if (period >= hockeyEndingPeriodHARDCODED + 1) {
-    const otNumber = period - hockeyEndingPeriodHARDCODED;
+function PeriodDisplay(period: number, sportEndingPeriod: number) {
+  if (period >= sportEndingPeriod + 1) {
+    const otNumber = period - sportEndingPeriod;
     return otNumber >= 2 ? otNumber + "OT" : "OT";
   }
 
@@ -51,25 +48,36 @@ export default function GameClockDisplay(props: GameClockDisplayProps) {
   const { game } = props;
 
   if (game.status === "FINAL") {
-    return <span>{getFinalText(game.endingPeriod)}</span>;
+    return (
+      <span>
+        {getFinalText(game.endingPeriod, game.sportInfo.ending_PERIOD)}
+      </span>
+    );
   }
 
-  return <ClockDisplay clock={game.clock} />;
+  return (
+    <ClockDisplay
+      clock={game.clock}
+      sportEndingPeriod={game.sportInfo.ending_PERIOD}
+    />
+  );
 }
 
 export type ClockDisplayProps = {
   clock: Clock;
+  sportEndingPeriod: number;
 };
 
 export function ClockDisplay(props: ClockDisplayProps) {
-  const { clock } = props;
+  const { clock, sportEndingPeriod } = props;
   return clock.intermission ? (
     <>
-      {PeriodDisplay(clock.period)} starts in {TimeDisplay(clock)}
+      {PeriodDisplay(clock.period, sportEndingPeriod)} starts in{" "}
+      {TimeDisplay(clock)}
     </>
   ) : (
     <>
-      {TimeDisplay(clock)} {PeriodDisplay(clock.period)}
+      {TimeDisplay(clock)} {PeriodDisplay(clock.period, sportEndingPeriod)}
     </>
   );
 }
