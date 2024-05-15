@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 
-import config from "../../config";
 import {
   TextField,
   Button,
@@ -13,6 +12,7 @@ import {
 } from "@mui/material";
 import Standing from "../../types/Standing";
 import TeamDisplay from "../shared/TeamDisplay/TeamDisplay";
+import { sfetch, sfetchList } from "../../sfetch";
 
 interface SeasonControlsDialogProps {
   open: boolean;
@@ -27,23 +27,18 @@ export default function SeasonUpdateDialog(props: SeasonControlsDialogProps) {
   const [teamIds, setTeamIds] = useState<Array<number>>([]);
 
   useEffect(() => {
-    fetch(config.baseUrl + "/season/findById?seasonId=" + props.seasonId)
-      .then((res) => res.json())
-      .then((season) => {
-        setSummary(season.summary);
-        setTitle(season.title);
-        setWinnerTeamId(season.winnerTeamId);
-      });
+    sfetch(`/season/findById?seasonId=${props.seasonId}`).then((season) => {
+      setSummary(season.summary);
+      setTitle(season.title);
+      setWinnerTeamId(season.winnerTeamId);
+    });
   }, [props.seasonId]);
 
   useEffect(() => {
-    fetch(`${config.baseUrl}/standing/get?seasonId=${props.seasonId}`)
-      .then((res) => res.json())
-      .then((standingsResult) =>
-        setTeamIds(
-          standingsResult.list.map((standing: Standing) => standing.teamId)
-        )
-      );
+    sfetchList(`/standing/get?seasonId=${props.seasonId}`).then(
+      (standingsResult) =>
+        setTeamIds(standingsResult.map((standing: Standing) => standing.teamId))
+    );
   }, [props.seasonId]);
 
   const handleCancel = () => {
@@ -51,16 +46,21 @@ export default function SeasonUpdateDialog(props: SeasonControlsDialogProps) {
   };
 
   const handleSubmit = () => {
-    fetch(
-      config.baseUrl +
-        "/season/update?seasonId=" +
-        props.seasonId +
-        "&title=" +
-        title +
-        "&winnerTeamId=" +
-        winnerTeamId +
-        "&summary=" +
-        summary
+    // sfetch("/season/update?seasonId=" +
+    //     props.seasonId +
+    //     "&title=" +
+    //     title +
+    //     "&winnerTeamId=" +
+    //     winnerTeamId +
+    //     "&summary=" +
+    //     summary
+    sfetch(
+      `/season/update?${new URLSearchParams({
+        seasonId: props.seasonId.toString(),
+        title,
+        winnerTeamId: winnerTeamId ? winnerTeamId.toString() : "null",
+        summary,
+      })}`
     );
 
     props.onClose();
