@@ -26,8 +26,6 @@ export default function HomePage() {
   const [gamesPlayingConcurrently, setGamesPlayingConcurrently] =
     useState<number>(0);
 
-  console.log("excludePossessionEnded", excludePossessionEnded);
-
   const getScoreboardState = useCallback(() => {
     fetch(config.baseUrl + "/game/getScoreboardState")
       .then((res) => res.json())

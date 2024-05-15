@@ -96,7 +96,7 @@ export default class StartGameFormClass extends React.Component<
     this.setState({ snackbarOpen: false });
   }
 
-  handleSubmit(event: React.ChangeEvent<any>) {
+  handleSubmit(event: React.ChangeEvent<unknown>) {
     fetch(
       `${config.baseUrl}/game/startSingleGame?sport=${this.state.sport}&homeTeamId=${this.state.homeTeamId}&awayTeamId=${this.state.awayTeamId}`
     );
@@ -126,8 +126,11 @@ export default class StartGameFormClass extends React.Component<
             <Box margin={2}>
               <TeamSelect
                 value={this.state.homeTeamId.toString()}
-                list={this.state.homeLeagueTeamsList}
+                teamIds={this.state.homeLeagueTeamsList.map((team) =>
+                  team.id.toString()
+                )}
                 onChange={this.homeTeamIdChange}
+                label="Home Team"
               />
             </Box>
             <Box margin={2}>
@@ -140,8 +143,11 @@ export default class StartGameFormClass extends React.Component<
             <Box margin={2}>
               <TeamSelect
                 value={this.state.awayTeamId.toString()}
-                list={this.state.awayLeagueTeamsList}
+                teamIds={this.state.awayLeagueTeamsList.map((team) =>
+                  team.id.toString()
+                )}
                 onChange={this.awayTeamIdChange}
+                label="Away Team"
               />
             </Box>
             <Box display="flex" justifyContent="end" margin={2}>

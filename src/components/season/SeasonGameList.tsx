@@ -20,7 +20,7 @@ const PAGE_SIZE = 20;
 export default function SeasonGameList(props: SeasonGameListProps) {
   const [games, setGames] = useState<Array<Game>>([]);
   const [page, setPage] = useState<number>(1);
-  const [teamIds, setTeamIds] = useState<Array<number>>([]);
+  const [teamIds, setTeamIds] = useState<Array<string>>([]);
   const [teamIdFilter, setTeamIdFilter] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -35,12 +35,10 @@ export default function SeasonGameList(props: SeasonGameListProps) {
       .then((res) => res.json())
       .then((gamesResult) => {
         setGames(gamesResult.list);
-        // let x = null;
-        // let y = x.a;
       })
       .catch((error) => {
-        console.log("error is", error);
-        setError("big fat error");
+        console.error("error - ", error);
+        setError("error - backend might not be running");
       });
   }, [
     props.seasonId,
@@ -73,11 +71,11 @@ export default function SeasonGameList(props: SeasonGameListProps) {
       );
   }, [props.seasonId]);
 
-  function handleTeamIdFilterChange(event: React.ChangeEvent<any>) {
-    if (event.target.value === "null") {
+  function handleTeamIdFilterChange(value: string) {
+    if (value === "") {
       setTeamIdFilter(null);
     } else {
-      setTeamIdFilter(event.target.value);
+      setTeamIdFilter(parseInt(value));
     }
   }
 
@@ -102,30 +100,12 @@ export default function SeasonGameList(props: SeasonGameListProps) {
         margin="auto"
       >
         <Box width={400}>
-          <InputLabel id="labelTeam">Team</InputLabel>
-          <Select
-            labelId="label"
-            id="selectTeam"
-            name="TeamId"
-            value={teamIdFilter}
-            onChange={handleTeamIdFilterChange}
-            variant="outlined"
-            fullWidth
+          <TeamSelect
+            teamIds={teamIds}
+            value={teamIdFilter ? teamIdFilter.toString() : ""}
             displayEmpty
-          >
-            <MenuItem value="null">All</MenuItem>
-            {teamIds.map((teamId) => (
-              <MenuItem key={teamId} value={teamId}>
-                <TeamDisplay id={teamId} />
-              </MenuItem>
-            ))}
-          </Select>
-          {/*<TeamSelect
-              list={teamIds}
-              value={teamIdFilter}
-              displayEmpty
-              onChange={teamIdChange}
-              />*/}
+            onChange={handleTeamIdFilterChange}
+          />
         </Box>
         <Box
           display="flex"
