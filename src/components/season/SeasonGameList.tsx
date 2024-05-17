@@ -10,6 +10,7 @@ import Game from "../../types/Game";
 import Standing from "../../types/Standing";
 import { getFinalText } from "../shared/GameClockDisplay";
 import TeamSelect from "../shared/TeamSelect";
+import ScheduleSeasonGames from "./ScheduleSeasonGames";
 
 export type SeasonGameListProps = {
   seasonId: number;
@@ -67,20 +68,6 @@ export default function SeasonGameList(props: SeasonGameListProps) {
         )
     );
   }
-
-  // useEffect(() => {
-  //   setPage(
-  //     !!games &&
-  //       Math.max(
-  //         Math.floor(
-  //           (games.filter((game) => game.status === "FINAL").length - 1) /
-  //             PAGE_SIZE +
-  //             1
-  //         ),
-  //         1
-  //       )
-  //   );
-  // }, [games]);
 
   useEffect(() => {
     fetch(`${config.baseUrl}/standing/get?seasonId=${props.seasonId}`)
@@ -243,6 +230,7 @@ export default function SeasonGameList(props: SeasonGameListProps) {
                 })}
           </tbody>
         </table>
+        <ScheduleSeasonGames seasonId={props.seasonId} loadGames={loadGames} />
       </Box>
     </Box>
   );
