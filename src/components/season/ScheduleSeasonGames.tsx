@@ -18,7 +18,7 @@ interface ScheduleSeasonGameProps {
   loadGames: (updatePagination: boolean) => void;
 }
 
-type SeasonGameSchedulerProps = {
+type SeasonGameProps = {
   homeTeamId: string;
   awayTeamId: string;
   updateTeamId: (id: string, index: number, homeTeam: boolean) => void;
@@ -31,7 +31,7 @@ type SeasonGameSchedulerProps = {
   index: number;
 };
 
-const SeasonGameScheduler = ({
+const SeasonGame = ({
   homeTeamId,
   awayTeamId,
   updateTeamId,
@@ -42,7 +42,7 @@ const SeasonGameScheduler = ({
   disableDown,
   teamIds,
   index,
-}: SeasonGameSchedulerProps) => {
+}: SeasonGameProps) => {
   return (
     <Box display="flex" width="100%">
       <Box width={400}>
@@ -163,7 +163,7 @@ export default function ScheduleSeasonGames(props: ScheduleSeasonGameProps) {
   return (
     <Box width="100%">
       {newSeasonGames.map((game: NewSeasonGame, index: number) => (
-        <SeasonGameScheduler
+        <SeasonGame
           homeTeamId={game.homeTeamId}
           awayTeamId={game.awayTeamId}
           updateTeamId={updateTeamId}
