@@ -5,7 +5,7 @@ import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import SeasonStandingList from "./SeasonStandingList";
 import SeasonGameList from "./SeasonGameList";
 import NextSeasonGame from "./NextSeasonGame";
-import ScheduleSeasonGame from "./ScheduleSeasonGame";
+import ScheduleSeasonGames from "./ScheduleSeasonGames";
 
 export type SeasonDisplayProps = {
   seasonId: number;
@@ -48,7 +48,7 @@ function SeasonDisplay(props: SeasonDisplayProps) {
       <NextSeasonGame seasonId={props.seasonId} numGames={props.numGames} />
       <SeasonStandingList seasonId={props.seasonId} numGames={props.numGames} />
       <SeasonGameList seasonId={props.seasonId} numGames={props.numGames} />
-      <ScheduleSeasonGame seasonId={props.seasonId} />
+      <ScheduleSeasonGames seasonId={props.seasonId} />
     </Box>
   );
 }

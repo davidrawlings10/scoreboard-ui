@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import { Box, Select, InputLabel, MenuItem } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 import Pagination from "@mui/material/Pagination";
+import { Refresh as RefreshIcon } from "@mui/icons-material";
 
 import config from "../../config";
 import "../Shared/Table.css";
@@ -28,26 +29,32 @@ export default function SeasonGameList(props: SeasonGameListProps) {
     setTeamIdFilter(null);
   }, [props.seasonId]);
 
-  useEffect(() => {
+  function loadGames(updatePagination: boolean) {
     fetch(
       `${config.baseUrl}/game/getGamesBySeasonId?seasonId=${props.seasonId}&teamId=${teamIdFilter}`
     )
       .then((res) => res.json())
       .then((gamesResult) => {
         setGames(gamesResult.list);
+        if (updatePagination) setPageToNextScheduledGame(gamesResult.list);
       })
       .catch((error) => {
         console.error("error - ", error);
         setError("error - backend might not be running");
       });
-  }, [
-    props.seasonId,
-    props.numGames?.current,
-    props.numGames?.finished,
-    teamIdFilter,
-  ]);
+  }
 
-  useEffect(() => {
+  useEffect(
+    () => loadGames(true),
+    [
+      props.seasonId,
+      props.numGames?.current,
+      props.numGames?.finished,
+      teamIdFilter,
+    ]
+  );
+
+  function setPageToNextScheduledGame(games: Array<Game>) {
     setPage(
       !!games &&
         Math.max(
@@ -59,7 +66,21 @@ export default function SeasonGameList(props: SeasonGameListProps) {
           1
         )
     );
-  }, [games]);
+  }
+
+  // useEffect(() => {
+  //   setPage(
+  //     !!games &&
+  //       Math.max(
+  //         Math.floor(
+  //           (games.filter((game) => game.status === "FINAL").length - 1) /
+  //             PAGE_SIZE +
+  //             1
+  //         ),
+  //         1
+  //       )
+  //   );
+  // }, [games]);
 
   useEffect(() => {
     fetch(`${config.baseUrl}/standing/get?seasonId=${props.seasonId}`)
@@ -72,7 +93,7 @@ export default function SeasonGameList(props: SeasonGameListProps) {
   }, [props.seasonId]);
 
   function handleTeamIdFilterChange(value: string) {
-    if (value === "") {
+    if (value === "All") {
       setTeamIdFilter(null);
     } else {
       setTeamIdFilter(parseInt(value));
@@ -83,7 +104,9 @@ export default function SeasonGameList(props: SeasonGameListProps) {
     event: React.ChangeEvent<unknown>,
     value: number
   ) => {
+    console.log("log: page", page);
     setPage(value);
+    console.log("log: page", page);
   };
 
   if (error) {
@@ -113,16 +136,23 @@ export default function SeasonGameList(props: SeasonGameListProps) {
           justifyContent="space-between"
           width="100%"
         >
-          <Box>
+          <Box ml={1}>
+            {!!games && games.filter((game) => game.status === "FINAL").length}{" "}
+            of {!!games && games.length} games played
+          </Box>
+          <Box display="flex">
+            <IconButton
+              onClick={() => {
+                loadGames(false);
+              }}
+            >
+              <RefreshIcon />
+            </IconButton>
             <Pagination
               onChange={handlePageChange}
               page={page}
               count={!!games && Math.floor((games.length - 1) / PAGE_SIZE + 1)}
             />
-          </Box>
-          <Box>
-            {!!games && games.filter((game) => game.status === "FINAL").length}{" "}
-            of {!!games && games.length} games played
           </Box>
         </Box>
 
