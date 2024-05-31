@@ -1,14 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Box, AppBar, Drawer } from "@mui/material";
-import {
-  Home,
-  List,
-  PlayArrow,
-  PlaylistAdd,
-  SportsHockey,
-  Menu,
-} from "@mui/icons-material";
+import { Box, AppBar, Drawer, Typography } from "@mui/material";
+import { Home, List, PlayArrow, PlaylistAdd, Menu } from "@mui/icons-material";
 import theme from "../theme";
 
 /*const linkStyle = {
@@ -37,7 +30,12 @@ export default function NavBar() {
 
   function NavItems() {
     return (
-      <Box display="flex" flexDirection={drawerMenuOpen ? "column" : "row"}>
+      <Box
+        display="flex"
+        flexDirection={drawerMenuOpen ? "column" : "row"}
+        width="100%"
+        height="40px"
+      >
         {navList.map((navItem: NavItem) => (
           <Box padding={1} marginRight={1}>
             <Link

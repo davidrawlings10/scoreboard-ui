@@ -5,27 +5,15 @@ import TeamDisplay from "./TeamDisplay/TeamDisplay";
 interface TeamSelectProps {
   value: string;
   teamIds: string[];
-  onChange: (value: any) => void;
+  onChange: (value: string) => void;
   label?: string;
   displayEmpty?: boolean;
+  small?: boolean;
 }
 
 export default function TeamSelect(props: TeamSelectProps) {
-  // const [teamId, setTeamId] = useState<string>(
-  //   props.displayEmpty ? "All" : props.value
-  // );
-
-  // console.log("log: props.value yo --->", props.value);
-  // console.log("log: teamId yo --->", teamId);
-
-  // useEffect(() => {
-  //   setTeamId(props.value);
-  // }, [props.value]);
-
   function teamIdChange(event: React.ChangeEvent<any>) {
-    // setTeamId(event.target.value);
     props.onChange(event.target.value);
-    // console.log("log: here yo indeed");
   }
 
   return (
@@ -38,6 +26,7 @@ export default function TeamSelect(props: TeamSelectProps) {
         onChange={teamIdChange}
         variant="outlined"
         fullWidth
+        small={props.small}
       >
         {props.displayEmpty && <MenuItem value="All">All</MenuItem>}
         {props.teamIds.map((id) => (

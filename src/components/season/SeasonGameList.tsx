@@ -91,9 +91,7 @@ export default function SeasonGameList(props: SeasonGameListProps) {
     event: React.ChangeEvent<unknown>,
     value: number
   ) => {
-    console.log("log: page", page);
     setPage(value);
-    console.log("log: page", page);
   };
 
   if (error) {

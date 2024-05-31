@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useReducer } from "react";
 import { Box, Button, IconButton } from "@mui/material";
 import {
   SwapHoriz,
@@ -10,7 +10,6 @@ import {
 import TeamSelect from "../shared/TeamSelect";
 import { sfetchList } from "../../sfetch";
 import Standing from "../../types/Standing";
-import NewSeasonGame from "../../types/NewSeasonGame";
 import config from "../../config";
 
 interface ScheduleSeasonGameProps {
@@ -18,13 +17,15 @@ interface ScheduleSeasonGameProps {
   loadGames: (updatePagination: boolean) => void;
 }
 
-type SeasonGameProps = {
+type NewSeasonGame = {
   homeTeamId: string;
   awayTeamId: string;
-  updateTeamId: (id: string, index: number, homeTeam: boolean) => void;
-  swapTeamIds: (index: number) => void;
-  remove: (index: number) => void;
-  move: (index: number, up: boolean) => void;
+};
+
+type SeasonGameProps = {
+  dispatch: (action: Action) => void;
+  homeTeamId: string;
+  awayTeamId: string;
   disableUp: boolean;
   disableDown: boolean;
   teamIds: string[];
@@ -32,12 +33,9 @@ type SeasonGameProps = {
 };
 
 const SeasonGame = ({
+  dispatch,
   homeTeamId,
   awayTeamId,
-  updateTeamId,
-  swapTeamIds,
-  remove,
-  move,
   disableUp,
   disableDown,
   teamIds,
@@ -49,15 +47,16 @@ const SeasonGame = ({
         <TeamSelect
           value={homeTeamId}
           teamIds={teamIds}
-          onChange={(id) => updateTeamId(id, index, true)}
+          onChange={(id: string) =>
+            dispatch({ type: "updateHomeTeam", payload: { id, index } })
+          }
           label="Home Team"
+          small
         />
       </Box>
       <Box display="flex" alignItems="center">
         <IconButton
-          onClick={() => {
-            swapTeamIds(index);
-          }}
+          onClick={() => dispatch({ type: "swapTeams", payload: { index } })}
         >
           <SwapHoriz />
         </IconButton>
@@ -66,22 +65,39 @@ const SeasonGame = ({
         <TeamSelect
           value={awayTeamId}
           teamIds={teamIds}
-          onChange={(id) => updateTeamId(id, index, false)}
+          onChange={(id: string) =>
+            dispatch({ type: "updateAwayTeam", payload: { id, index } })
+          }
           label="Away Team"
+          small
         />
       </Box>
       <Box display="flex" alignItems="center">
-        <IconButton onClick={() => move(index, true)} disabled={disableUp}>
+        <IconButton
+          onClick={() =>
+            dispatch({ type: "swapGames", payload: { index: index - 1 } })
+          }
+          disabled={disableUp}
+        >
           <ArrowUpward />
         </IconButton>
       </Box>
       <Box display="flex" alignItems="center">
-        <IconButton onClick={() => move(index, false)} disabled={disableDown}>
+        <IconButton
+          onClick={() =>
+            dispatch({ type: "swapGames", payload: { index: index } })
+          }
+          disabled={disableDown}
+        >
           <ArrowDownward />
         </IconButton>
       </Box>
       <Box display="flex" alignItems="center">
-        <IconButton onClick={() => remove(index)}>
+        <IconButton
+          onClick={() =>
+            dispatch({ type: "remove", payload: { index: index } })
+          }
+        >
           <DeleteIcon />
         </IconButton>
       </Box>
@@ -89,9 +105,64 @@ const SeasonGame = ({
   );
 };
 
+type Action =
+  | { type: "add"; payload: { homeTeamId: string; awayTeamId: string } }
+  | { type: "remove"; payload: { index: number } }
+  | { type: "updateHomeTeam"; payload: { id: string; index: number } }
+  | { type: "updateAwayTeam"; payload: { id: string; index: number } }
+  | { type: "swapTeams"; payload: { index: number } }
+  | { type: "swapGames"; payload: { index: number } }; // the way I wrote this it handle moving up and down
+
+function reducer(newSeasonGames: NewSeasonGame[], action: Action) {
+  switch (action.type) {
+    case "remove":
+      return newSeasonGames.filter(
+        (game, index) => index !== action.payload.index
+      );
+    case "add":
+      return [
+        ...newSeasonGames,
+        {
+          homeTeamId: action.payload.homeTeamId,
+          awayTeamId: action.payload.awayTeamId,
+        },
+      ];
+    case "updateHomeTeam":
+      return newSeasonGames.map((game, index) =>
+        index === action.payload.index
+          ? { ...game, homeTeamId: action.payload.id }
+          : game
+      );
+    case "updateAwayTeam":
+      return newSeasonGames.map((game, index) =>
+        index === action.payload.index
+          ? { ...game, awayTeamId: action.payload.id }
+          : game
+      );
+    case "swapTeams":
+      return newSeasonGames.map((game, index) =>
+        index === action.payload.index
+          ? { homeTeamId: game.awayTeamId, awayTeamId: game.homeTeamId }
+          : game
+      );
+    case "swapGames":
+      return newSeasonGames.map((game, index) => {
+        if (index === action.payload.index) {
+          return newSeasonGames[action.payload.index + 1];
+        } else if (index === action.payload.index + 1) {
+          return newSeasonGames[action.payload.index];
+        } else {
+          return game;
+        }
+      });
+    default:
+      return newSeasonGames;
+  }
+}
+
 export default function ScheduleSeasonGames(props: ScheduleSeasonGameProps) {
   const [teamIds, setTeamIds] = useState<string[]>([]);
-  const [newSeasonGames, setNewSeasonGames] = useState<NewSeasonGame[]>([]);
+  const [newSeasonGames, dispatch] = useReducer(reducer, []);
 
   useEffect(() => {
     sfetchList(`/standing/get?seasonId=${props.seasonId}`).then(
@@ -116,60 +187,13 @@ export default function ScheduleSeasonGames(props: ScheduleSeasonGameProps) {
     }
   }
 
-  function updateTeamId(id: string, index: number, homeTeam: boolean) {
-    const newSeasonGamesCopy = [...newSeasonGames];
-    if (homeTeam) {
-      newSeasonGamesCopy[index].homeTeamId = id;
-    } else {
-      newSeasonGamesCopy[index].awayTeamId = id;
-    }
-    setNewSeasonGames(newSeasonGamesCopy);
-  }
-
-  function move(index: number, up: boolean) {
-    const gamesCopy = [...newSeasonGames];
-    if (up) {
-      gamesCopy.splice(index - 1, 2, gamesCopy[index], gamesCopy[index - 1]);
-    } else {
-      gamesCopy.splice(index, 2, gamesCopy[index + 1], gamesCopy[index]);
-    }
-    setNewSeasonGames(gamesCopy);
-  }
-
-  function remove(index: number) {
-    const newSeasonGamesCopy = [...newSeasonGames];
-    newSeasonGamesCopy.splice(index, 1);
-    setNewSeasonGames(newSeasonGamesCopy);
-  }
-
-  function swapTeamIds(index: number) {
-    const newSeasonGamesCopy = [...newSeasonGames];
-    const homeTeamId = newSeasonGamesCopy[index].homeTeamId;
-    newSeasonGamesCopy[index].homeTeamId = newSeasonGamesCopy[index].awayTeamId;
-    newSeasonGamesCopy[index].awayTeamId = homeTeamId;
-    setNewSeasonGames(newSeasonGamesCopy);
-  }
-
-  function addSeasonGame() {
-    const newSeasonGamesCopy = [...newSeasonGames];
-    const seasonGame: NewSeasonGame = {
-      homeTeamId: teamIds[0],
-      awayTeamId: teamIds[1],
-    };
-    newSeasonGamesCopy.push(seasonGame);
-    setNewSeasonGames(newSeasonGamesCopy);
-  }
-
   return (
     <Box width="100%">
       {newSeasonGames.map((game: NewSeasonGame, index: number) => (
         <SeasonGame
+          dispatch={dispatch}
           homeTeamId={game.homeTeamId}
           awayTeamId={game.awayTeamId}
-          updateTeamId={updateTeamId}
-          swapTeamIds={swapTeamIds}
-          remove={remove}
-          move={move}
           disableUp={index === 0}
           disableDown={index === newSeasonGames.length - 1}
           teamIds={teamIds}
@@ -177,7 +201,16 @@ export default function ScheduleSeasonGames(props: ScheduleSeasonGameProps) {
         />
       ))}
       <Box display="flex" gap={1} mt={1}>
-        <Button variant="contained" color="primary" onClick={addSeasonGame}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() =>
+            dispatch({
+              type: "add",
+              payload: { homeTeamId: teamIds[0], awayTeamId: teamIds[1] },
+            })
+          }
+        >
           Add Game
         </Button>
         {newSeasonGames.length > 0 && (

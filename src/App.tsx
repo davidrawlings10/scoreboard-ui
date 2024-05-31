@@ -17,26 +17,33 @@ const App = () => {
       <Box bgcolor="background.default" color="text.primary">
         <BrowserRouter>
           <NavBar />
-          <Switch>
-            <Route exact path="/">
-              <HomePage />
-            </Route>
-            <Route path="/season">
-              <SeasonPage />
-            </Route>
-            <Route path="/scheduleSeason">
-              <ScheduleSeasonForm />
-            </Route>
-            <Route path="/startGame">
-              <StartGameForm />
-            </Route>
-            <Route path="/teams" exact>
-              <TeamsPage />
-            </Route>
-            <Route path="/teams/:id">
-              <TeamDetail />
-            </Route>
-          </Switch>
+          <Box display="flex" height="calc(100vh - 80px)" width="100%">
+            <Box overflow="auto" width="100%">
+              <Switch>
+                <Route exact path="/">
+                  <HomePage />
+                </Route>
+                <Route path="/season">
+                  <SeasonPage />
+                </Route>
+                <Route path="/scheduleSeason">
+                  <ScheduleSeasonForm />
+                </Route>
+                <Route path="/startGame">
+                  <StartGameForm />
+                </Route>
+                <Route path="/teams" exact>
+                  <TeamsPage />
+                </Route>
+                <Route path="/teams/:id">
+                  <TeamDetail />
+                </Route>
+              </Switch>
+            </Box>
+          </Box>
+          <Box width="100%" height="40px">
+            Updates
+          </Box>
         </BrowserRouter>
       </Box>
     </ThemeProvider>
