@@ -1,11 +1,13 @@
 import "./App.css";
 import { Box, ThemeProvider } from "@mui/material";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import { configureStore, createSlice } from "@reduxjs/toolkit";
+// import { configureStore, createSlice } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
 
+import { store } from "./store";
 import theme from "./theme";
 import NavBar from "./components/NavBar";
+import UpdatesBar from "./components/UpdatesBar";
 import HomePage from "./components/home/HomePage";
 import SeasonPage from "./components/season/SeasonPage";
 import StartGameForm from "./components/StartGameForm";
@@ -29,24 +31,24 @@ import TeamDetail from "./components/teams/TeamDetail";
 //   resetState: {}
 // }
 
-export const counterSlice = createSlice({
-  name: "counter",
-  initialState: {
-    value: 0,
-  },
-  reducers: {
-    increment: (state) => {
-      state.value += 1;
-    },
-    decrement: (state) => {
-      state.value -= 1;
-    },
-  },
-});
+// export const counterSlice = createSlice({
+//   name: "counter",
+//   initialState: {
+//     value: 0,
+//   },
+//   reducers: {
+//     increment: (state) => {
+//       state.value += 1;
+//     },
+//     decrement: (state) => {
+//       state.value -= 1;
+//     },
+//   },
+// });
 
-export const store = configureStore({
-  reducer: {},
-});
+// export const store = configureStore({
+//   reducer: {counterSlice.reducer},
+// });
 
 // export type RootState = ReturnType<typeof store.getState>;
 // export type AppDispatch = typeof store.dispatch;
@@ -82,9 +84,7 @@ const App = () => {
                 </Switch>
               </Box>
             </Box>
-            <Box width="100%" height="40px">
-              Updates
-            </Box>
+            <UpdatesBar />
           </BrowserRouter>
         </Box>
       </Provider>

@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { Box, FormControlLabel, Switch } from "@mui/material";
+import { Box, Button } from "@mui/material";
 
 import config from "../../config";
 import Scoreboard from "./Scoreboard";
@@ -10,6 +10,11 @@ import GameEvent from "../../types/GameEvent";
 import GameEventList from "./GameEventListV2";
 import ScoreboardControls from "./ScoreboardControls";
 import CurrentGameList from "./CurrentGameList";
+
+import type { RootState } from "../../store";
+import { useSelector, useDispatch } from "react-redux";
+import { decrement, increment } from "../../counterSlice";
+import { set } from "../../gamesSlice";
 
 export default function HomePage() {
   const [currentGames, setCurrentGames] = useState(Array<Game>());
@@ -26,11 +31,15 @@ export default function HomePage() {
   const [gamesPlayingConcurrently, setGamesPlayingConcurrently] =
     useState<number>(0);
 
+  const count = useSelector((state: RootState) => state.counter.value);
+  const dispatch = useDispatch();
+
   const getScoreboardState = useCallback(() => {
     fetch(config.baseUrl + "/game/getScoreboardState")
       .then((res) => res.json())
       .then((json) => {
         setCurrentGames(json.games);
+        dispatch(set(json.games));
         if (finishedGames.length !== json.finishedGames.length) {
           setFinishedGames(json.finishedGames);
         }
@@ -201,6 +210,9 @@ export default function HomePage() {
             />
           )}
         </Box>
+        <Box>{count}</Box>
+        <Button onClick={() => dispatch(increment())}>Inc</Button>
+        <Button onClick={() => dispatch(decrement())}>Dec</Button>
       </Box>
 
       <ScoreboardControlsDialog
