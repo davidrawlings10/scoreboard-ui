@@ -2,7 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 
 import TeamDisplay from "../shared/TeamDisplay/TeamDisplay";
-import { Box } from "@mui/material";
+import { Box, Typography, Tooltip } from "@mui/material";
 import TeamSeasonList from "./TeamSeasonList";
 import TeamLogo from "../shared/TeamDisplay/TeamLogo";
 import type { RootState } from "../../store";
@@ -30,12 +30,19 @@ export default function TeamDetail() {
           <Box>
             <h2>
               <TeamDisplay id={teamId} hideLogo={true} />
-              {count}
             </h2>
           </Box>
         </Box>
       </Box>
       <TeamSeasonList teamId={teamId} />
+      <Tooltip title="redux example">
+        <Typography
+          color="text.hint"
+          sx={{ display: "flex", justifyContent: "flex-end" }}
+        >
+          {count}
+        </Typography>
+      </Tooltip>
     </Box>
   );
 }

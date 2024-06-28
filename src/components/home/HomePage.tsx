@@ -210,9 +210,6 @@ export default function HomePage() {
             />
           )}
         </Box>
-        <Box>{count}</Box>
-        <Button onClick={() => dispatch(increment())}>Inc</Button>
-        <Button onClick={() => dispatch(decrement())}>Dec</Button>
       </Box>
 
       <ScoreboardControlsDialog
