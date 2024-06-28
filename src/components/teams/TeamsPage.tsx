@@ -18,6 +18,7 @@ const useStyles = makeStyles({
 
 interface TeamSeasonTotal {
   teamId: number;
+  division: string;
   seasonsWon: number;
   seasonsPlayed: number;
   seasonsWonPercent: number;
@@ -35,13 +36,13 @@ export default function TeamsPage() {
   const [teamSeasonTotals, setTeamSeasonTotals] = useState<
     Array<TeamSeasonTotal>
   >([]);
-  let { Th, sortTable } = sortableTable();
+  const { Th, sortTable } = sortableTable();
 
   const classes = useStyles();
 
   // load team season totals
   useEffect(() => {
-    if (!!league) {
+    if (league) {
       sfetchList("/team/getTeamSeasonTotals?league=" + league).then((list) => {
         const teamSeasonTotals = list;
 
@@ -103,6 +104,7 @@ export default function TeamsPage() {
             <tr>
               <th></th>
               <th>Team</th>
+              <th>Division</th>
               <Th attribute="seasonsWon">Seasons Won</Th>
               <th>Trophies</th>
               <Th attribute="seasonsPlayed">Seasons Played</Th>
@@ -127,6 +129,7 @@ export default function TeamsPage() {
                       <TeamDisplay id={teamSeasonTotal.teamId} />
                     </Link>
                   </td>
+                  <td>{teamSeasonTotal.division}</td>
                   <td>{teamSeasonTotal.seasonsWon}</td>
                   <td>
                     {teamSeasonTotal.trophies.map((trophy: number) => (
