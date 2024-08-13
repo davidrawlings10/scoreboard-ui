@@ -9,6 +9,7 @@ import sortableTable from "../shared/SortableTable";
 import { calculatedPointPercentage } from "../shared/StandingsHelper";
 import { Sport } from "../../types/Game";
 import Season from "../../types/Season";
+import { sfetch } from "../../sfetch";
 
 interface SeasonStandingListProps {
   seasonId: number;
@@ -27,9 +28,9 @@ export default function SeasonStandingList(props: SeasonStandingListProps) {
   const { Th, sortTable } = sortableTable();
 
   function handleRankingUpdate(standing: Standing) {
-    console.log(
-      `updating team ${standing.teamId} to ranking ${rankingValue} for standing ${standing.id}`
-    );
+    sfetch(
+      `/standing/updateRanking?standingId=${standing.id}&ranking=${rankingValue}`
+    ).then((res) => console.log(res));
     setEditRankingTeamId(undefined);
   }
 

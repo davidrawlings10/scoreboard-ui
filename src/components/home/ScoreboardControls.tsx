@@ -5,7 +5,8 @@ import { Settings } from "@mui/icons-material";
 import config from "../../config";
 
 function getList(millisecondsPerTick: number) {
-  const list = [10, 50, 100, 250, 500, 1000];
+  // const list = [10, 50, 100, 250, 500, 1000];
+  const list = [250, 500, 1000, 1500, 2000];
   if (!list.includes(millisecondsPerTick)) {
     list.push(millisecondsPerTick);
   }
@@ -47,7 +48,7 @@ export default function ScoreboardControls(props: ScoreboardControlsProps) {
   }, [window.innerWidth]);
 
   return (
-    <Box flexDirection="row">
+    <>
       <Box display="flex" flexDirection="row" justifyContent="space-between">
         <Box>
           <FormControlLabel
@@ -60,7 +61,7 @@ export default function ScoreboardControls(props: ScoreboardControlsProps) {
         </Box>
         <Box display="flex" flexDirection="row" alignItems="center">
           {fullDisplay && <Box marginRight={1}>Milliseconds Per Tick</Box>}
-          <Box width={fullDisplay ? 300 : 100}>
+          <Box width={fullDisplay ? 300 : 120}>
             {getList(millisecondsPerTick).map((milliseconds: number) => (
               <Chip
                 label={milliseconds}
@@ -104,6 +105,6 @@ export default function ScoreboardControls(props: ScoreboardControlsProps) {
           </Button>
         </Box>
       </Box>
-    </Box>
+    </>
   );
 }

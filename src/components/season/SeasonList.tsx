@@ -82,6 +82,7 @@ export default function SeasonList(props: SeasonListProps) {
           <table>
             <thead>
               <tr>
+                <th></th>
                 <th>Name</th>
                 <th>League</th>
                 <th>Sport</th>
@@ -92,12 +93,13 @@ export default function SeasonList(props: SeasonListProps) {
               </tr>
             </thead>
             <tbody>
-              {seasons.map((season) => (
+              {seasons.map((season, index) => (
                 <tr
                   key={season.id}
                   onClick={() => viewSeason(season.id)}
                   className={classes.root}
                 >
+                  <td>{index + 1}</td>
                   <td>{season.title}</td>
                   <td>
                     <LeagueDisplay value={season.league} />
