@@ -14,7 +14,7 @@ import SimpleSelect from "../shared/SimpleSelect";
 
 export type SeasonListProps = { viewSeason: (seasonId: number) => void };
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
     "&:hover": {
       cursor: "pointer",
@@ -31,13 +31,16 @@ export default function SeasonList(props: SeasonListProps) {
   const [league, setLeague] = useState<string | undefined>("AVES");
 
   useEffect(() => {
-    sfetchList(`/season/getSeasons?league=${league}&sport=${sport}`)
-      // .then((res) => res.json())
-      // .then((seasonsResult) => {
-      //   setSeasons(seasonsResult.list);
-      // });
-      .then((result) => setSeasons(result));
+    sfetchList(`/season/getSeasons?league=${league}&sport=${sport}`).then(
+      (result) => setSeasons(result)
+    );
   }, [sport, league]);
+
+  useEffect(() => {
+    if (seasons.length > 0) {
+      props.viewSeason(seasons.length);
+    }
+  }, [props, seasons]);
 
   function viewSeason(seasonId: number) {
     props.viewSeason(seasonId);

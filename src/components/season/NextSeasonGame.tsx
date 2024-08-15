@@ -77,9 +77,7 @@ export default function NextSeasonGame(props: NextSeasonGameProps) {
             p={1}
             pl={2}
           >
-            {!!nextSeasonGame
-              ? "Next Game"
-              : "There are no more scheduled games"}
+            {nextSeasonGame ? "Next Game" : "There are no more scheduled games"}
           </Box>
           {!!nextSeasonGame && (
             <Box

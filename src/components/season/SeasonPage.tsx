@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Box, Button, Typography, Tooltip } from "@mui/material";
-import { AddToQueue } from "@mui/icons-material";
 
 import SeasonList from "./SeasonList";
 import SeasonDisplay from "./SeasonDisplay";
@@ -13,8 +12,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { decrement, increment } from "../../counterSlice";
 
 export default function SeasonPage() {
-  const [seasonId, setSeasonId] = useState(1);
-  const [seasonUpdateDialogOpen, setSeasonUpdateDialogOpen] = useState(false);
+  const [seasonId, setSeasonId] = useState<number>(1);
+  const [seasonUpdateDialogOpen, setSeasonUpdateDialogOpen] =
+    useState<boolean>(false);
 
   const count = useSelector((state: RootState) => state.counter.value);
   const dispatch = useDispatch();
