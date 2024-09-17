@@ -65,10 +65,14 @@ import CanucksLogo from "../../../images/logos/teams/nhl/CanucksLogo.svg";
 import GoldenKnightsLogo from "../../../images/logos/teams/nhl/GoldenKnightsLogo.svg";
 
 import BuffaloBillsLogo from "../../../images/logos/teams/nfl/BuffaloBillsLogo.svg";
+import PittsburghSteelersLogo from "../../../images/logos/teams/nfl/PittsburghSteelersLogo.svg";
 import DenverBroncosLogo from "../../../images/logos/teams/nfl/DenverBroncosLogo.svg";
 import KansasCityChiefsLogo from "../../../images/logos/teams/nfl/KansasCityChiefsLogo.svg";
 import LosAngelesChargersLogo from "../../../images/logos/teams/nfl/LosAngelesChargersLogo.svg";
 import LasVegasRaidersLogo from "../../../images/logos/teams/nfl/LasVegasRaidersLogo.svg";
+import NewYorkGiantsLogo from "../../../images/logos/teams/nfl/NewYorkGiantsLogo.svg";
+import ChicagoBearsLogo from "../../../images/logos/teams/nfl/ChicagoBearsLogo.svg";
+import GreenBayPackersLogo from "../../../images/logos/teams/nfl/GreenBayPackersLogo.svg";
 import SanFrancisco49ersLogo from "../../../images/logos/teams/nfl/SanFrancisco49ersLogo.svg";
 
 import BaylorBearsLogo from "../../../images/logos/teams/ncaa/BaylorBearsLogo.svg";
@@ -237,6 +241,8 @@ function getTeamLogo(id: number) {
       return GoldenKnightsLogo;
     case 97:
       return BuffaloBillsLogo;
+    case 104:
+      return PittsburghSteelersLogo;
     case 109:
       return DenverBroncosLogo;
     case 110:
@@ -245,6 +251,12 @@ function getTeamLogo(id: number) {
       return LosAngelesChargersLogo;
     case 112:
       return LasVegasRaidersLogo;
+    case 114:
+      return NewYorkGiantsLogo;
+    case 117:
+      return ChicagoBearsLogo;
+    case 119:
+      return GreenBayPackersLogo;
     case 127:
       return SanFrancisco49ersLogo;
     case 129:
