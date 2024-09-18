@@ -49,6 +49,7 @@ export default function GameEventList(props: GameEventListProps) {
           maxHeight={400}
           width="100%"
         >
+          {gameEvents.length === 0 && "No events"}
           {gameEvents
             .sort(function (a, b) {
               return b.id - a.id;

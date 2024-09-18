@@ -7,7 +7,7 @@ import SeasonGameList from "./SeasonGameList";
 import NextSeasonGame from "./NextSeasonGame";
 
 export type SeasonDisplayProps = {
-  seasonId: number;
+  seasonId?: number;
   numGames: { current: number; finished: number } | null; // this is so that when a game is finished, this component (which is wrapped in memo) will refresh
 };
 
@@ -33,6 +33,8 @@ function SeasonDisplay(props: SeasonDisplayProps) {
     return <div></div>;
   }
 
+  console.log("log: props.seasonId", props.seasonId);
+
   return (
     <Box overflow="auto">
       <Snackbar
@@ -51,4 +53,4 @@ function SeasonDisplay(props: SeasonDisplayProps) {
   );
 }
 
-export default memo(SeasonDisplay);
+export default SeasonDisplay;

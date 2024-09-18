@@ -3,6 +3,7 @@ import { Box, ThemeProvider } from "@mui/material";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 // import { configureStore, createSlice } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
+import { useCallback, useState } from "react";
 
 import { store } from "./store";
 import theme from "./theme";
@@ -14,6 +15,8 @@ import StartGameForm from "./components/StartGameForm";
 import ScheduleSeasonForm from "./components/ScheduleSeasonForm";
 import TeamsPage from "./components/teams/TeamsPage";
 import TeamDetail from "./components/teams/TeamDetail";
+import { sfetchList } from "./sfetch";
+import Season from "./types/Season";
 
 // export type MedicationState = {
 //   ndc: string;
@@ -54,6 +57,18 @@ import TeamDetail from "./components/teams/TeamDetail";
 // export type AppDispatch = typeof store.dispatch;
 
 const App = () => {
+  const [seasons, setSeasons] = useState<Season[] | null>(null);
+  const loadSeasons = useCallback(
+    (league?: string | null, sport?: string | null) =>
+      sfetchList(`/season/getSeasons?league=${league}&sport=${sport}`).then(
+        (result) => {
+          console.log("log: result", result);
+          setSeasons(result);
+        }
+      ),
+    []
+  );
+
   return (
     <ThemeProvider theme={theme}>
       <Provider store={store}>
@@ -64,10 +79,10 @@ const App = () => {
               <Box overflow="auto" width="100%">
                 <Switch>
                   <Route exact path="/">
-                    <HomePage />
+                    <HomePage seasons={seasons} loadSeasons={loadSeasons} />
                   </Route>
                   <Route path="/season">
-                    <SeasonPage />
+                    <SeasonPage seasons={seasons} loadSeasons={loadSeasons} />
                   </Route>
                   <Route path="/scheduleSeason">
                     <ScheduleSeasonForm />

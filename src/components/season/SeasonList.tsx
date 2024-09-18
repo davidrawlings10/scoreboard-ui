@@ -4,15 +4,14 @@ import { AddToQueue } from "@mui/icons-material";
 import { makeStyles } from "@mui/styles";
 
 import config from "../../config";
-import { sfetchList } from "../../sfetch";
+// import { sfetchList } from "../../sfetch";
 import "../Shared/Table.css";
 import Season from "../../types/Season";
 import TeamDisplay from "../shared/TeamDisplay/TeamDisplay";
 import LeagueDisplay from "../shared/LeagueDisplay/LeagueDisplay";
 import SportDisplay from "../shared/SportDisplay/SportDisplay";
 import SimpleSelect from "../shared/SimpleSelect";
-
-export type SeasonListProps = { viewSeason: (seasonId: number) => void };
+// import SeasonGameList from "./SeasonGameList";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -22,29 +21,42 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export default function SeasonList(props: SeasonListProps) {
+type SeasonListProps = {
+  seasons: Season[] | null;
+  loadSeasons: (league?: string | null, sport?: string | null) => void;
+  viewSeason: (seasonId: number) => void;
+};
+
+export default function SeasonList({
+  seasons,
+  loadSeasons,
+  viewSeason,
+}: SeasonListProps) {
   const classes = useStyles();
 
-  const [seasons, setSeasons] = useState<Array<Season>>([]);
+  // const [seasons, setSeasons] = useState<Array<Season>>([]);
 
-  const [sport, setSport] = useState<string | undefined>("HOCKEY");
-  const [league, setLeague] = useState<string | undefined>("AVES");
-
-  useEffect(() => {
-    sfetchList(`/season/getSeasons?league=${league}&sport=${sport}`).then(
-      (result) => setSeasons(result)
-    );
-  }, [sport, league]);
+  const [sport, setSport] = useState<string | null>("HOCKEY");
+  const [league, setLeague] = useState<string | null>("AVES");
 
   useEffect(() => {
-    if (seasons.length > 0) {
-      props.viewSeason(seasons.length);
+    // sfetchList(`/season/getSeasons?league=${league}&sport=${sport}`).then(
+    //   (result) => setSeasons(result)
+    // );
+    if (!seasons) {
+      loadSeasons(league, sport);
     }
-  }, [props, seasons]);
+  }, [seasons, loadSeasons, sport, league]);
 
-  function viewSeason(seasonId: number) {
-    props.viewSeason(seasonId);
-  }
+  useEffect(() => {
+    if (seasons) {
+      viewSeason(seasons.length);
+    }
+  }, [seasons, viewSeason]);
+
+  // function viewSeason(seasonId: number) {
+  //   viewSeason(seasonId);
+  // }
 
   function sportChange(sport: string) {
     setSport(sport);
@@ -96,7 +108,7 @@ export default function SeasonList(props: SeasonListProps) {
               </tr>
             </thead>
             <tbody>
-              {seasons.map((season, index) => (
+              {seasons?.map((season, index) => (
                 <tr
                   key={season.id}
                   onClick={() => viewSeason(season.id)}

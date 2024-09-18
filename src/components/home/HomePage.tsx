@@ -10,20 +10,26 @@ import GameEvent from "../../types/GameEvent";
 import GameEventList from "./GameEventListV2";
 import ScoreboardControls from "./ScoreboardControls";
 import CurrentGameList from "./CurrentGameList";
+import Season from "../../types/Season";
 
 import type { RootState } from "../../store";
 import { useSelector, useDispatch } from "react-redux";
 import { decrement, increment } from "../../counterSlice";
 import { set } from "../../gamesSlice";
 
-export default function HomePage() {
+type HomePageProps = {
+  seasons: Season[] | null;
+  loadSeasons: (league?: string | null, sport?: string | null) => void;
+};
+
+export default function HomePage({ seasons, loadSeasons }: HomePageProps) {
   const [currentGames, setCurrentGames] = useState(Array<Game>());
   const [finishedGames, setFinishedGames] = useState(Array<Game>());
   const [displayGameId, setDisplayGameId] = useState<number | null>(null);
   const [displayGame, setDisplayGame] = useState<Game | null>(null);
   const [gameEvents, setGameEvents] = useState(Array<GameEvent>());
   const [excludePossessionEnded, setExcludePossessionEnded] =
-    useState<boolean>(true);
+    useState<boolean>(false);
 
   const [running, setRunning] = useState(false);
   const [millisecondsPerTick, setMillisecondsPerTick] = useState<number>(0);
@@ -87,6 +93,12 @@ export default function HomePage() {
   };
 
   useEffect(() => {
+    if (!seasons) {
+      loadSeasons("AVES", "HOCKEY");
+    }
+  }, [seasons, loadSeasons]);
+
+  useEffect(() => {
     if (displayGameId) {
       currentGames.concat(finishedGames).forEach((game: Game) => {
         if (game.id === displayGameId) {
@@ -94,7 +106,8 @@ export default function HomePage() {
         }
       });
     } else {
-      updateDisplayGameId();
+      // updateDisplayGameId();
+      setDisplayGameId(currentGames.concat(finishedGames)[0]?.id);
     }
   }, [displayGameId, currentGames, finishedGames, updateDisplayGameId]);
 
@@ -185,7 +198,7 @@ export default function HomePage() {
 
         <Box marginTop={4}>
           {currentGames.concat(finishedGames).length > 0 &&
-            gameEvents.length > 0 &&
+            // gameEvents.length > 0 &&
             !!displayGame && (
               <Box alignItems="center" flexDirection="column">
                 <GameEventList
@@ -200,15 +213,15 @@ export default function HomePage() {
             )}
         </Box>
         <Box marginTop={4}>
-          {!!displayGame && (
-            <SeasonDisplay
-              seasonId={displayGame?.seasonId}
-              numGames={{
-                current: currentGames.length,
-                finished: finishedGames.length,
-              }}
-            />
-          )}
+          {/* {!!displayGame && ( */}
+          <SeasonDisplay
+            seasonId={displayGame?.seasonId || seasons?.length}
+            numGames={{
+              current: currentGames.length,
+              finished: finishedGames.length,
+            }}
+          />
+          {/* )} */}
         </Box>
       </Box>
 

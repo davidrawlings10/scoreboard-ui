@@ -6,12 +6,18 @@ import SeasonDisplay from "./SeasonDisplay";
 import SeasonHeader from "./SeasonHeader";
 import SeasonUpdateDialog from "./SeasonUpdateDialog";
 import SeasonButtons from "./SeasonButtons";
+import Season from "../../types/Season";
 
 import type { RootState } from "../../store";
 import { useSelector, useDispatch } from "react-redux";
 import { decrement, increment } from "../../counterSlice";
 
-export default function SeasonPage() {
+type SeasonPageProps = {
+  seasons: Season[] | null;
+  loadSeasons: (league?: string | null, sport?: string | null) => void;
+};
+
+export default function SeasonPage({ seasons, loadSeasons }: SeasonPageProps) {
   const [seasonId, setSeasonId] = useState<number>(1);
   const [seasonUpdateDialogOpen, setSeasonUpdateDialogOpen] =
     useState<boolean>(false);
@@ -34,7 +40,11 @@ export default function SeasonPage() {
   return (
     <>
       <Box padding={3} height="100%">
-        <SeasonList viewSeason={viewSeason} />
+        <SeasonList
+          seasons={seasons}
+          loadSeasons={loadSeasons}
+          viewSeason={viewSeason}
+        />
         <Box marginBottom={5}></Box>
         <Box marginBottom={4}>
           <SeasonHeader seasonId={seasonId} />
