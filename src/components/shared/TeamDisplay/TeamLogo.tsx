@@ -66,6 +66,7 @@ import GoldenKnightsLogo from "../../../images/logos/teams/nhl/GoldenKnightsLogo
 
 import BuffaloBillsLogo from "../../../images/logos/teams/nfl/BuffaloBillsLogo.svg";
 import PittsburghSteelersLogo from "../../../images/logos/teams/nfl/PittsburghSteelersLogo.svg";
+import IndianapolisColtsLogo from "../../../images/logos/teams/nfl/IndianapolisColtsLogo.svg";
 import DenverBroncosLogo from "../../../images/logos/teams/nfl/DenverBroncosLogo.svg";
 import KansasCityChiefsLogo from "../../../images/logos/teams/nfl/KansasCityChiefsLogo.svg";
 import LosAngelesChargersLogo from "../../../images/logos/teams/nfl/LosAngelesChargersLogo.svg";
@@ -243,6 +244,8 @@ function getTeamLogo(id: number) {
       return BuffaloBillsLogo;
     case 104:
       return PittsburghSteelersLogo;
+    case 106:
+      return IndianapolisColtsLogo;
     case 109:
       return DenverBroncosLogo;
     case 110:
