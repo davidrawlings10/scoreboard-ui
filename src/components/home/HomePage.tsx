@@ -1,5 +1,5 @@
-import { useState, useEffect, useCallback } from "react";
-import { Box, Button } from "@mui/material";
+import { useState, useEffect, useCallback, useContext } from "react";
+import { Box } from "@mui/material";
 
 import config from "../../config";
 import Scoreboard from "./Scoreboard";
@@ -10,19 +10,9 @@ import GameEvent from "../../types/GameEvent";
 import GameEventList from "./GameEventListV2";
 import ScoreboardControls from "./ScoreboardControls";
 import CurrentGameList from "./CurrentGameList";
-import Season from "../../types/Season";
+import { AppContext } from "../App";
 
-import type { RootState } from "../../store";
-import { useSelector, useDispatch } from "react-redux";
-import { decrement, increment } from "../../counterSlice";
-import { set } from "../../gamesSlice";
-
-type HomePageProps = {
-  seasons: Season[] | null;
-  loadSeasons: (league?: string | null, sport?: string | null) => void;
-};
-
-export default function HomePage({ seasons, loadSeasons }: HomePageProps) {
+export default function HomePage() {
   const [currentGames, setCurrentGames] = useState(Array<Game>());
   const [finishedGames, setFinishedGames] = useState(Array<Game>());
   const [displayGameId, setDisplayGameId] = useState<number | null>(null);
@@ -37,15 +27,13 @@ export default function HomePage({ seasons, loadSeasons }: HomePageProps) {
   const [gamesPlayingConcurrently, setGamesPlayingConcurrently] =
     useState<number>(0);
 
-  const count = useSelector((state: RootState) => state.counter.value);
-  const dispatch = useDispatch();
+  const { seasons, loadSeasons } = useContext(AppContext);
 
   const getScoreboardState = useCallback(() => {
     fetch(config.baseUrl + "/game/getScoreboardState")
       .then((res) => res.json())
       .then((json) => {
         setCurrentGames(json.games);
-        dispatch(set(json.games));
         if (finishedGames.length !== json.finishedGames.length) {
           setFinishedGames(json.finishedGames);
         }
@@ -197,23 +185,20 @@ export default function HomePage({ seasons, loadSeasons }: HomePageProps) {
         {/* show game events for display game  */}
 
         <Box marginTop={4}>
-          {currentGames.concat(finishedGames).length > 0 &&
-            // gameEvents.length > 0 &&
-            !!displayGame && (
-              <Box alignItems="center" flexDirection="column">
-                <GameEventList
-                  gameEvents={gameEvents}
-                  game={displayGame}
-                  excludePossessionEnded={excludePossessionEnded}
-                  handleExcludePossessionEndedChanged={
-                    handleExcludePossessionEndedChanged
-                  }
-                />
-              </Box>
-            )}
+          {currentGames.concat(finishedGames).length > 0 && !!displayGame && (
+            <Box alignItems="center" flexDirection="column">
+              <GameEventList
+                gameEvents={gameEvents}
+                game={displayGame}
+                excludePossessionEnded={excludePossessionEnded}
+                handleExcludePossessionEndedChanged={
+                  handleExcludePossessionEndedChanged
+                }
+              />
+            </Box>
+          )}
         </Box>
         <Box marginTop={4}>
-          {/* {!!displayGame && ( */}
           <SeasonDisplay
             seasonId={displayGame?.seasonId || seasons?.length}
             numGames={{
@@ -221,7 +206,6 @@ export default function HomePage({ seasons, loadSeasons }: HomePageProps) {
               finished: finishedGames.length,
             }}
           />
-          {/* )} */}
         </Box>
       </Box>
 

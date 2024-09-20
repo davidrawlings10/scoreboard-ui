@@ -1,24 +1,19 @@
 import { Box } from "@mui/material";
-import type { RootState } from "../store";
-import { useSelector } from "react-redux";
-import Game from "../types/Game";
-import TeamDisplay from "./shared/TeamDisplay/TeamDisplay";
-import config from "../config";
-import { getFinalText } from "./shared/GameClockDisplay";
+// import TeamDisplay from "./shared/TeamDisplay/TeamDisplay";
+// import config from "../config";
+// import { getFinalText } from "./shared/GameClockDisplay";
 import "./shared/Table.css";
 
 export default function UpdatesBar() {
-  const games: Game[] = useSelector((state: RootState) => state.games.list);
+  // const games: Game[] = useSelector((state: RootState) => state.games.list);
 
-  console.log("games", games);
+  // if (games.length === 0) {
+  //   return <></>;
+  // }
 
-  if (games.length === 0) {
-    return <></>;
-  }
+  // const game = games[0];
 
-  const game = games[0];
-
-  console.log("games[0]", games[0], "game", game);
+  // console.log("games[0]", games[0], "game", game);
 
   return (
     <Box
@@ -28,7 +23,7 @@ export default function UpdatesBar() {
       justifyContent="space-between"
       alignItems="center"
     >
-      <Box
+      {/* <Box
         className={
           game.status === "FINAL" && game.homeScore > game.awayScore
             ? "winning-team-color"
@@ -74,7 +69,7 @@ export default function UpdatesBar() {
           new Date(game.updated).toLocaleString("en-US", {
             timeZone: config.timeZone,
           })}
-      </Box>
+      </Box> */}
     </Box>
   );
 }

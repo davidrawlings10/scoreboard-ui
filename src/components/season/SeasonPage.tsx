@@ -1,26 +1,23 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useContext } from "react";
 import { Box, Button, Typography, Tooltip } from "@mui/material";
 
+import { AppContext } from "../App";
 import SeasonList from "./SeasonList";
 import SeasonDisplay from "./SeasonDisplay";
 import SeasonHeader from "./SeasonHeader";
 import SeasonUpdateDialog from "./SeasonUpdateDialog";
 import SeasonButtons from "./SeasonButtons";
-import Season from "../../types/Season";
 
 import type { RootState } from "../../store";
 import { useSelector, useDispatch } from "react-redux";
 import { decrement, increment } from "../../counterSlice";
 
-type SeasonPageProps = {
-  seasons: Season[] | null;
-  loadSeasons: (league?: string | null, sport?: string | null) => void;
-};
-
-export default function SeasonPage({ seasons, loadSeasons }: SeasonPageProps) {
+export default function SeasonPage() {
   const [seasonId, setSeasonId] = useState<number>(1);
   const [seasonUpdateDialogOpen, setSeasonUpdateDialogOpen] =
     useState<boolean>(false);
+
+  const { seasons, loadSeasons } = useContext(AppContext);
 
   const count = useSelector((state: RootState) => state.counter.value);
   const dispatch = useDispatch();
