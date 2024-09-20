@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { Box, Button, Typography, Tooltip } from "@mui/material";
 
 import SeasonList from "./SeasonList";
@@ -33,9 +33,10 @@ export default function SeasonPage({ seasons, loadSeasons }: SeasonPageProps) {
     setSeasonUpdateDialogOpen(false);
   };
 
-  function viewSeason(seasonId: number) {
-    setSeasonId(seasonId);
-  }
+  const viewSeason = useCallback(
+    (seasonId: number) => setSeasonId(seasonId),
+    []
+  );
 
   return (
     <>

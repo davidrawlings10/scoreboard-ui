@@ -147,6 +147,7 @@ export default function GameEventList(props: GameEventListProps) {
                       gameEvent.eventType
                         .replace("HOCKEY", "")
                         .replace("BASKETBALL", "")
+                        .replace("FOOTBALL", "")
                         .replaceAll("_", " ")
                         .trim()
                         .toLowerCase()

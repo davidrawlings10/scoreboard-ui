@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React from "react";
 import { Snackbar, Box } from "@mui/material";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 
@@ -32,8 +32,6 @@ function SeasonDisplay(props: SeasonDisplayProps) {
   if (!props.seasonId) {
     return <div></div>;
   }
-
-  console.log("log: props.seasonId", props.seasonId);
 
   return (
     <Box overflow="auto">
