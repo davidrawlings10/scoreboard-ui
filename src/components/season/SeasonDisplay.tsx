@@ -16,7 +16,8 @@ function Alert(props: AlertProps) {
 }
 
 function SeasonDisplay(props: SeasonDisplayProps) {
-  const [gameStartedAlertOpen, setGameStartedAlertOpen] = React.useState(false);
+  const [gameStartedAlertOpen, setGameStartedAlertOpen] =
+    React.useState<boolean>(false);
 
   const handleGameStartedAlertClose = (
     event?: React.SyntheticEvent,

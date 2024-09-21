@@ -7,7 +7,7 @@ import TeamDisplay from "../shared/TeamDisplay/TeamDisplay";
 import Standing from "../../types/Standing";
 import sortableTable from "../shared/SortableTable";
 import { calculatedPointPercentage } from "../shared/StandingsHelper";
-import { Sport } from "../../types/Game";
+// import { Sport } from "../../types/Game";
 import Season from "../../types/Season";
 import { sfetch } from "../../sfetch";
 
