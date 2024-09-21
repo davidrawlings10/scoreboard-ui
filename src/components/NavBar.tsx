@@ -1,14 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Box, AppBar, Drawer, Typography } from "@mui/material";
+import { Box, AppBar, Drawer } from "@mui/material";
 import { Home, List, PlayArrow, PlaylistAdd, Menu } from "@mui/icons-material";
 import theme from "../theme";
-
-/*const linkStyle = {
-  color: theme.palette.text.primary,
-  textDecoration: "none",
-  fontWeight: "bold",
-};*/
 
 type NavItem = {
   name: string;

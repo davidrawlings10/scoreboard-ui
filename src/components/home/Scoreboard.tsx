@@ -1,9 +1,6 @@
 import React from "react";
 import { Box, IconButton } from "@mui/material";
-import {
-  Delete as DeleteIcon /*, Edit as EditIcon*/,
-} from "@mui/icons-material";
-import { makeStyles } from "@mui/styles";
+import { Delete as DeleteIcon } from "@mui/icons-material";
 
 import config from "../../config";
 import TeamDisplay from "../shared/TeamDisplay/TeamDisplay";
@@ -11,15 +8,6 @@ import GameClockDisplay from "../shared/GameClockDisplay";
 import Game from "../../types/Game";
 import ConfirmationDialog from "./ConfirmationDialog";
 import SportLogo from "../shared/SportDisplay/SportLogo";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    "&:hover": {
-      backgroundColor: theme.palette.primary.dark,
-      cursor: "pointer",
-    },
-  },
-}));
 
 interface ScoreboardRowProps {
   teamId: number;
@@ -69,10 +57,8 @@ export type ScoreboardProps = {
 };
 
 export default function Scoreboard(props: ScoreboardProps) {
-  const classes = useStyles();
-
   const [confirmationDailogOpen, setConfirmationDailogOpen] =
-    React.useState(false);
+    React.useState<boolean>(false);
 
   function terminateHandleClick() {
     setConfirmationDailogOpen(true);
@@ -101,8 +87,18 @@ export default function Scoreboard(props: ScoreboardProps) {
           <Box
             bgcolor="primary.main"
             border="1px solid black"
-            className={props.small ? classes.root : ""}
+            // className={props.small ? classes.root : ""}
             width={props.small ? 260 : 380}
+            sx={
+              props.small
+                ? {
+                    "&:hover": {
+                      bgcolor: "primary.dark",
+                      cursor: "pointer",
+                    },
+                  }
+                : {}
+            }
           >
             <ScoreboardRow
               teamId={props.game.homeTeamId}

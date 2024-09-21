@@ -66,7 +66,7 @@ export default function ScoreboardControls(props: ScoreboardControlsProps) {
               <Chip
                 label={milliseconds}
                 variant={
-                  millisecondsPerTick === milliseconds ? "default" : "outlined"
+                  millisecondsPerTick === milliseconds ? "filled" : "outlined"
                 }
                 color={
                   millisecondsPerTick === milliseconds ? "primary" : "default"

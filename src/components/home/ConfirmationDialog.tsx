@@ -6,18 +6,8 @@ import {
   Button,
   Box,
 } from "@mui/material";
-import { makeStyles } from "@mui/styles";
 import Game from "../../types/Game";
 import TeamDisplay from "../shared/TeamDisplay/TeamDisplay";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    backgroundColor: theme.palette.error.main,
-    "&:hover": {
-      backgroundColor: theme.palette.error.dark,
-    },
-  },
-}));
 
 interface ConfirmationDialogProps {
   open: boolean;
@@ -27,8 +17,6 @@ interface ConfirmationDialogProps {
 
 export default function ConfirmationDialog(props: ConfirmationDialogProps) {
   const { onClose, open } = props;
-
-  const classes = useStyles();
 
   const handleCancel = () => {
     onClose(false);
@@ -63,12 +51,7 @@ export default function ConfirmationDialog(props: ConfirmationDialogProps) {
         >
           Cancel
         </Button>
-        <Button
-          onClick={handleOk}
-          variant="contained"
-          color="secondary"
-          classes={classes}
-        >
+        <Button onClick={handleOk} variant="contained" color="secondary">
           Stop
         </Button>
       </DialogActions>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { makeStyles } from "@mui/styles";
 import theme from "../../theme";
 
@@ -26,27 +26,30 @@ export default function NextSeasonGame(props: NextSeasonGameProps) {
 
   const classes = useStyles();
 
-  useEffect(() => {
+  const loadNextSeasonGame = useCallback(() => {
+    setLoading(true);
     fetch(`${config.baseUrl}/game/getNextSeasonGame?seasonId=${props.seasonId}`)
       .then((res) => res.json())
       .then((game: Game) => {
         setNextSeasonGame(game);
-        setLoading(false);
-      });
+      })
+      .finally(() => setLoading(false));
+  }, [props.seasonId]);
+
+  useEffect(() => {
+    loadNextSeasonGame();
   }, [
+    loadNextSeasonGame,
     props.seasonId,
-    loading,
     props.numGames?.current,
     props.numGames?.finished,
   ]);
 
-  /*useEffect(() => {
-    setLoading(false);
-  }, [nextSeasonGame]);*/
-
   function handlePlayNow(): void {
-    fetch(`${config.baseUrl}/game/playSeasonGame?gameId=${nextSeasonGame?.id}`);
     setLoading(true);
+    fetch(
+      `${config.baseUrl}/game/playSeasonGame?gameId=${nextSeasonGame?.id}`
+    ).then(() => loadNextSeasonGame());
   }
 
   function handleResumeNow(): void {
@@ -72,24 +75,29 @@ export default function NextSeasonGame(props: NextSeasonGameProps) {
           <Box
             display="flex"
             justifyContent="center"
+            alignItems="center"
             bgcolor="primary.dark"
             border="1px solid #474f97"
             p={1}
             pl={2}
+            minHeight={30}
           >
-            {nextSeasonGame ? "Next Game" : "There are no more scheduled games"}
+            Next Game
           </Box>
-          {!!nextSeasonGame && (
-            <Box
-              display="flex"
-              flexDirection="row"
-              border="1px solid #474f97"
-              alignContent="center"
-            >
+          <Box
+            display="flex"
+            flexDirection="row"
+            border="1px solid #474f97"
+            alignItems="center"
+            justifyContent="center"
+            bgcolor="primary.main"
+            minHeight={80}
+          >
+            {!nextSeasonGame && "There are no more scheduled games"}
+            {!!nextSeasonGame && (
               <Box
                 display="flex"
                 flexDirection="row"
-                bgcolor="primary.main"
                 p={1}
                 width="100%"
                 justifyContent="center"
@@ -160,8 +168,8 @@ export default function NextSeasonGame(props: NextSeasonGameProps) {
                   </>
                 )}
               </Box>
-            </Box>
-          )}
+            )}
+          </Box>
           <Box mt={1} display="flex" justifyContent="center">
             {!!nextSeasonGame && (
               <Button

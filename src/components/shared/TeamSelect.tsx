@@ -8,11 +8,11 @@ interface TeamSelectProps {
   onChange: (value: string) => void;
   label?: string;
   displayEmpty?: boolean;
-  small?: boolean;
+  // small?: boolean;
 }
 
 export default function TeamSelect(props: TeamSelectProps) {
-  function teamIdChange(event: React.ChangeEvent<any>) {
+  function teamIdChange(event: any) {
     props.onChange(event.target.value);
   }
 
@@ -26,7 +26,7 @@ export default function TeamSelect(props: TeamSelectProps) {
         onChange={teamIdChange}
         variant="outlined"
         fullWidth
-        small={props.small}
+        // small={props.small}
       >
         {props.displayEmpty && <MenuItem value="All">All</MenuItem>}
         {props.teamIds.map((id) => (

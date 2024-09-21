@@ -86,7 +86,6 @@ export default function TeamsPage() {
             entity="league"
             value={league}
             onChange={leagueChange}
-            displayEmpty
           />
         </Box>
         <Box marginBottom={2} width="100%">

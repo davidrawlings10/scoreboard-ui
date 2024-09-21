@@ -17,9 +17,7 @@ import Team from "../types/Team";
 import SimpleSelect from "./shared/SimpleSelect";
 import TeamDisplay from "./shared/TeamDisplay/TeamDisplay";
 
-export type ScheduleSeasonFormProps = {};
-
-export default function ScheduleSeasonForm(props: ScheduleSeasonFormProps) {
+export default function ScheduleSeasonForm() {
   const [title, setTitle] = useState<string>("<Unnamed Season>");
   const [scheduleType, setScheduleType] = useState<string>(
     "HOME_ROTATION_RANDOM"
@@ -55,7 +53,7 @@ export default function ScheduleSeasonForm(props: ScheduleSeasonFormProps) {
     setTitle(event.target.value);
   }
 
-  function scheduleTypeChange(event: React.ChangeEvent<any>) {
+  function scheduleTypeChange(event: any) {
     setScheduleType(event.target.value);
   }
 
@@ -231,11 +229,7 @@ export default function ScheduleSeasonForm(props: ScheduleSeasonFormProps) {
           </Box>
         </form>
       </Box>
-      <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={6000}
-        onClose={handleCloseSnackbar}
-      >
+      <Snackbar open={snackbarOpen} autoHideDuration={6000}>
         <Alert onClose={handleCloseSnackbar} severity="success">
           Season Created
         </Alert>

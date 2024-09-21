@@ -35,11 +35,7 @@ function SeasonDisplay(props: SeasonDisplayProps) {
 
   return (
     <Box overflow="auto">
-      <Snackbar
-        open={gameStartedAlertOpen}
-        autoHideDuration={1000}
-        onClose={handleGameStartedAlertClose}
-      >
+      <Snackbar open={gameStartedAlertOpen} autoHideDuration={1000}>
         <Alert onClose={handleGameStartedAlertClose} severity="success">
           Game started
         </Alert>

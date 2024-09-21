@@ -8,9 +8,9 @@ import SeasonHeader from "./SeasonHeader";
 import SeasonUpdateDialog from "./SeasonUpdateDialog";
 import SeasonButtons from "./SeasonButtons";
 
-import type { RootState } from "../../store";
+import type { RootState } from "../../other/redux/store";
 import { useSelector, useDispatch } from "react-redux";
-import { decrement, increment } from "../../counterSlice";
+import { decrement, increment } from "../../other/redux/counterSlice";
 
 export default function SeasonPage() {
   const [seasonId, setSeasonId] = useState<number>(1);

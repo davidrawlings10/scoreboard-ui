@@ -51,7 +51,7 @@ const SeasonGame = ({
             dispatch({ type: "updateHomeTeam", payload: { id, index } })
           }
           label="Home Team"
-          small
+          // small
         />
       </Box>
       <Box display="flex" alignItems="center">
@@ -69,7 +69,7 @@ const SeasonGame = ({
             dispatch({ type: "updateAwayTeam", payload: { id, index } })
           }
           label="Away Team"
-          small
+          // small
         />
       </Box>
       <Box display="flex" alignItems="center">

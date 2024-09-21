@@ -1,11 +1,10 @@
 import "./App.css";
 import { Box, ThemeProvider } from "@mui/material";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-// import { configureStore, createSlice } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
 import { createContext } from "react";
 
-import { store } from "../store";
+import { store } from "../other/redux/store";
 import theme from "../theme";
 import NavBar from "./NavBar";
 import UpdatesBar from "./UpdatesBar";

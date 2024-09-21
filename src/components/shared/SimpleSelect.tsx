@@ -51,7 +51,7 @@ export default function SimpleSelect(props: SimpleSelectProps) {
     });
   }, []);
 
-  function valueChange(event: React.ChangeEvent<any>) {
+  function valueChange(event: any) {
     setValue(event.target.value);
     props.onChange(event.target.value);
   }

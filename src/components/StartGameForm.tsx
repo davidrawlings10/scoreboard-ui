@@ -16,8 +16,8 @@ interface StartGameFormClassState {
   sport: string;
   homeLeague: string;
   awayLeague: string;
-  homeTeamId: number;
-  awayTeamId: number;
+  homeTeamId: string;
+  awayTeamId: string;
   homeLeagueTeamsList: Array<Team>;
   awayLeagueTeamsList: Array<Team>;
   snackbarOpen: boolean;
@@ -41,8 +41,8 @@ export default class StartGameFormClass extends React.Component<
       sport: "HOCKEY",
       homeLeague: "AVES",
       awayLeague: "AVES",
-      homeTeamId: 1,
-      awayTeamId: 2,
+      homeTeamId: "1",
+      awayTeamId: "2",
       homeLeagueTeamsList: [],
       awayLeagueTeamsList: [],
       snackbarOpen: false,
@@ -70,11 +70,11 @@ export default class StartGameFormClass extends React.Component<
     this.updateTeamsList(league, false);
   }
 
-  homeTeamIdChange(teamId: number) {
+  homeTeamIdChange(teamId: string) {
     this.setState({ homeTeamId: teamId });
   }
 
-  awayTeamIdChange(teamId: number) {
+  awayTeamIdChange(teamId: string) {
     this.setState({ awayTeamId: teamId });
   }
 
@@ -162,11 +162,7 @@ export default class StartGameFormClass extends React.Component<
             </Box>
           </form>
         </Box>
-        <Snackbar
-          open={this.state.snackbarOpen}
-          autoHideDuration={6000}
-          onClose={this.handleCloseSnackbar}
-        >
+        <Snackbar open={this.state.snackbarOpen} autoHideDuration={6000}>
           <Alert onClose={this.handleCloseSnackbar} severity="success">
             Game Started
           </Alert>

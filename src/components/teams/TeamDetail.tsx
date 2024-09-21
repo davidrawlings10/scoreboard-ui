@@ -5,7 +5,7 @@ import TeamDisplay from "../shared/TeamDisplay/TeamDisplay";
 import { Box, Typography, Tooltip } from "@mui/material";
 import TeamSeasonList from "./TeamSeasonList";
 import TeamLogo from "../shared/TeamDisplay/TeamLogo";
-import type { RootState } from "../../store";
+import type { RootState } from "../../other/redux/store";
 import { useSelector } from "react-redux";
 
 export default function TeamDetail() {
