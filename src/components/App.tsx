@@ -1,6 +1,6 @@
 import "./App.css";
 import { Box, ThemeProvider } from "@mui/material";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Provider } from "react-redux";
 import { createContext } from "react";
 
@@ -16,15 +16,20 @@ import TeamsPage from "./teams/TeamsPage";
 import TeamDetail from "./teams/TeamDetail";
 import useApp from "./useApp";
 import Season from "../types/Season";
+import Standing from "../types/Standing";
 
 type AppContextType = {
   seasons: Season[] | null;
   loadSeasons: (league?: string | null, sport?: string | null) => void;
+  standings: Standing[] | null;
+  loadStandings: (seasonId: number) => void;
 };
 
 export const AppContext = createContext<AppContextType>({
   seasons: null,
   loadSeasons: () => {},
+  standings: null,
+  loadStandings: () => {},
 });
 
 const App = () => {
@@ -39,26 +44,17 @@ const App = () => {
               <NavBar />
               <Box display="flex" height="calc(100vh - 80px)" width="100%">
                 <Box overflow="auto" width="100%">
-                  <Switch>
-                    <Route exact path="/">
-                      <HomePage />
-                    </Route>
-                    <Route path="/season">
-                      <SeasonPage />
-                    </Route>
-                    <Route path="/scheduleSeason">
-                      <ScheduleSeasonForm />
-                    </Route>
-                    <Route path="/startGame">
-                      <StartGameForm />
-                    </Route>
-                    <Route path="/teams" exact>
-                      <TeamsPage />
-                    </Route>
-                    <Route path="/teams/:id">
-                      <TeamDetail />
-                    </Route>
-                  </Switch>
+                  <Routes>
+                    <Route path="/" element={<HomePage />} />
+                    <Route path="/season" element={<SeasonPage />} />
+                    <Route
+                      path="/scheduleSeason"
+                      element={<ScheduleSeasonForm />}
+                    />
+                    <Route path="/startGame" element={<StartGameForm />} />
+                    <Route path="/teams" element={<TeamsPage />} />
+                    <Route path="/teams/:id" element={<TeamDetail />} />
+                  </Routes>
                 </Box>
               </Box>
               <UpdatesBar />

@@ -8,6 +8,7 @@ import GameClockDisplay from "../shared/GameClockDisplay";
 import Game from "../../types/Game";
 import ConfirmationDialog from "./ConfirmationDialog";
 import SportLogo from "../shared/SportDisplay/SportLogo";
+import Standing from "../../types/Standing";
 
 interface ScoreboardRowProps {
   teamId: number;
@@ -34,7 +35,9 @@ function ScoreboardRow({
         flexDirection="row"
         justifyContent="space-between"
       >
-        <TeamDisplay id={teamId} hideLocation={small} />
+        <Box display="flex" flexDirection="row" gap={1} paddingLeft={1}>
+          <TeamDisplay id={teamId} hideLocation={small} showStanding />
+        </Box>
         {possession && <SportLogo value={sport} />}
       </Box>
       <Box
@@ -88,7 +91,7 @@ export default function Scoreboard(props: ScoreboardProps) {
             bgcolor="primary.main"
             border="1px solid black"
             // className={props.small ? classes.root : ""}
-            width={props.small ? 260 : 380}
+            width={props.small ? 300 : 380}
             sx={
               props.small
                 ? {

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Box, TextField, Button } from "@mui/material";
 
 import config from "../../config";
@@ -6,8 +6,7 @@ import "../Shared/Table.css";
 import TeamDisplay from "../shared/TeamDisplay/TeamDisplay";
 import Standing from "../../types/Standing";
 import sortableTable from "../shared/SortableTable";
-import { calculatedPointPercentage } from "../shared/StandingsHelper";
-// import { Sport } from "../../types/Game";
+import { AppContext } from "../App";
 import Season from "../../types/Season";
 import { sfetch } from "../../sfetch";
 
@@ -17,7 +16,8 @@ interface SeasonStandingListProps {
 }
 
 export default function SeasonStandingList(props: SeasonStandingListProps) {
-  const [standings, setStandings] = useState<Array<Standing>>([]);
+  const { standings, loadStandings } = useContext(AppContext);
+  // const [standings, setStandings] = useState<Array<Standing>>([]);
   const [editRankingTeamId, setEditRankingTeamId] = useState<
     number | undefined
   >(undefined);
@@ -35,20 +35,21 @@ export default function SeasonStandingList(props: SeasonStandingListProps) {
   }
 
   useEffect(() => {
-    fetch(config.baseUrl + "/standing/get?seasonId=" + props.seasonId)
-      .then((res) => res.json())
-      .then((standingsResult) => {
-        const standingsList: Standing[] = standingsResult.list;
-        standingsList.forEach((standing: Standing) => {
-          standing.goalDiff = standing.gf - standing.ga;
-          standing.pointPercentage = calculatedPointPercentage(
-            standing.point,
-            standing.gp
-          );
-        });
+    loadStandings(props.seasonId);
+    // fetch(config.baseUrl + "/standing/get?seasonId=" + props.seasonId)
+    //   .then((res) => res.json())
+    //   .then((standingsResult) => {
+    //     const standingsList: Standing[] = standingsResult.list;
+    //     standingsList.forEach((standing: Standing) => {
+    //       standing.goalDiff = standing.gf - standing.ga;
+    //       standing.pointPercentage = calculatedPointPercentage(
+    //         standing.point,
+    //         standing.gp
+    //       );
+    //     });
 
-        setStandings(standingsResult.list);
-      });
+    //     setStandings(standingsResult.list);
+    //   });
     setEditRankingTeamId(undefined);
   }, [props.seasonId, props.numGames?.current, props.numGames?.finished]);
 

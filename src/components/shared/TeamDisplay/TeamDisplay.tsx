@@ -9,6 +9,7 @@ export interface TeamDisplayProps {
   hideLogo?: boolean;
   hideLocation?: boolean;
   flipDisplay?: boolean;
+  showStanding?: boolean;
 }
 
 export default function TeamDisplay(props: TeamDisplayProps) {
@@ -16,7 +17,11 @@ export default function TeamDisplay(props: TeamDisplayProps) {
     <Box display="flex" flexDirection="row">
       {!props.hideName && props.flipDisplay && (
         <Box marginRight={1}>
-          <TeamName id={props.id} hideLocation={props.hideLocation} />
+          <TeamName
+            id={props.id}
+            hideLocation={props.hideLocation}
+            showStanding={props?.showStanding}
+          />
         </Box>
       )}
       {!props.hideLogo && (
@@ -32,8 +37,12 @@ export default function TeamDisplay(props: TeamDisplayProps) {
         </Box>
       )}
       {!props.hideName && !props.flipDisplay && (
-        <Box marginLeft={1}>
-          <TeamName id={props.id} hideLocation={props.hideLocation} />
+        <Box marginLeft={1} display="flex" gap={1}>
+          <TeamName
+            id={props.id}
+            hideLocation={props.hideLocation}
+            showStanding={props?.showStanding}
+          />
         </Box>
       )}
     </Box>

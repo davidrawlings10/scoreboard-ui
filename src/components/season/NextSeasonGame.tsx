@@ -120,6 +120,7 @@ export default function NextSeasonGame(props: NextSeasonGameProps) {
                         <TeamDisplay
                           id={nextSeasonGame.homeTeamId}
                           hideName={window.innerWidth < 1200}
+                          showStanding
                         />
                       </Box>
                       <Box display="flex" justifyContent="flex-end">
@@ -157,6 +158,7 @@ export default function NextSeasonGame(props: NextSeasonGameProps) {
                         id={nextSeasonGame.awayTeamId}
                         hideName={window.innerWidth < 1200}
                         flipDisplay
+                        showStanding
                       />
                       <Box>Away</Box>
                       <Box className={classes.highlight}>
