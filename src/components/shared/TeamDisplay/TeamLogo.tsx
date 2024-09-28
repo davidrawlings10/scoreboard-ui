@@ -78,6 +78,24 @@ import NewYorkGiantsLogo from "../../../images/logos/teams/nfl/NewYorkGiantsLogo
 import ChicagoBearsLogo from "../../../images/logos/teams/nfl/ChicagoBearsLogo.svg";
 import GreenBayPackersLogo from "../../../images/logos/teams/nfl/GreenBayPackersLogo.svg";
 import SanFrancisco49ersLogo from "../../../images/logos/teams/nfl/SanFrancisco49ersLogo.svg";
+import BaltimoreRavensLogo from "../../../images/logos/teams/nfl/BaltimoreRavensLogo.svg";
+import CincinnatiBengalsLogo from "../../../images/logos/teams/nfl/CincinnatiBengalsLogo.svg";
+import ClevelandBrownsLogo from "../../../images/logos/teams/nfl/ClevelandBrownsLogo.svg";
+import HoustonTexansLogo from "../../../images/logos/teams/nfl/HoustonTexansLogo.svg";
+import JacksonvilleJaguarsLogo from "../../../images/logos/teams/nfl/JacksonvilleJaguarsLogo.svg";
+import TennesseeTitansLogo from "../../../images/logos/teams/nfl/TennesseeTitansLogo.svg";
+import DallasCowboysLogo from "../../../images/logos/teams/nfl/DallasCowboysLogo.svg";
+import WashingtonCommandersLogo from "../../../images/logos/teams/nfl/WashingtonCommandersLogo.svg";
+import PhiladelphiaEaglesLogo from "../../../images/logos/teams/nfl/PhiladelphiaEaglesLogo.svg";
+import DetroitLionsLogo from "../../../images/logos/teams/nfl/DetroitLionsLogo.svg";
+import MinnesotaVikingsLogo from "../../../images/logos/teams/nfl/MinnesotaVikingsLogo.svg";
+import AtlantaFalconsLogo from "../../../images/logos/teams/nfl/AtlantaFalconsLogo.svg";
+import CarolinaPanthersLogo from "../../../images/logos/teams/nfl/CarolinaPanthersLogo.svg";
+import NewOrleansSaintsLogo from "../../../images/logos/teams/nfl/NewOrleansSaintsLogo.svg";
+import TampaBayBuccaneersLogo from "../../../images/logos/teams/nfl/TampaBayBuccaneersLogo.svg";
+import ArizonaCardinalsLogo from "../../../images/logos/teams/nfl/ArizonaCardinalsLogo.svg";
+import LosAngelesRamsLogo from "../../../images/logos/teams/nfl/LosAngelesRamsLogo.svg";
+import SeattleSeahawksLogo from "../../../images/logos/teams/nfl/SeattleSeahawksLogo.svg";
 
 import BaylorBearsLogo from "../../../images/logos/teams/ncaa/BaylorBearsLogo.svg";
 import IowaStateCyclonesLogo from "../../../images/logos/teams/ncaa/IowaStateCyclonesLogo.svg";
@@ -251,10 +269,22 @@ function getTeamLogo(id: number) {
       return NewYorkJetsLogo;
     case 100:
       return NewEnglandPatriotsLogo;
+    case 101:
+      return BaltimoreRavensLogo;
+    case 102:
+      return CincinnatiBengalsLogo;
+    case 103:
+      return ClevelandBrownsLogo;
     case 104:
       return PittsburghSteelersLogo;
+    case 105:
+      return HoustonTexansLogo;
     case 106:
       return IndianapolisColtsLogo;
+    case 107:
+      return JacksonvilleJaguarsLogo;
+    case 108:
+      return TennesseeTitansLogo;
     case 109:
       return DenverBroncosLogo;
     case 110:
@@ -263,14 +293,39 @@ function getTeamLogo(id: number) {
       return LosAngelesChargersLogo;
     case 112:
       return LasVegasRaidersLogo;
+    case 113:
+      return DallasCowboysLogo;
     case 114:
       return NewYorkGiantsLogo;
+    case 115:
+      return PhiladelphiaEaglesLogo;
+    case 116:
+      return WashingtonCommandersLogo;
     case 117:
       return ChicagoBearsLogo;
+    case 118:
+      return DetroitLionsLogo;
     case 119:
       return GreenBayPackersLogo;
+    case 120:
+      return MinnesotaVikingsLogo;
+    case 121:
+      return AtlantaFalconsLogo;
+    case 122:
+      return CarolinaPanthersLogo;
+    case 123:
+      return NewOrleansSaintsLogo;
+    case 124:
+      return TampaBayBuccaneersLogo;
+    case 125:
+      return ArizonaCardinalsLogo;
+    case 126:
+      return LosAngelesRamsLogo;
+      SeattleSeahawksLogo;
     case 127:
       return SanFrancisco49ersLogo;
+    case 128:
+      return SeattleSeahawksLogo;
     case 129:
       return BaylorBearsLogo;
     case 130:
