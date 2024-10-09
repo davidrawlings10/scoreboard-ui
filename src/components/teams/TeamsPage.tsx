@@ -2,12 +2,14 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@mui/styles";
 import { Box, Chip } from "@mui/material";
+import { useSearchParams } from "react-router-dom";
 
 import theme from "../../theme";
 import { sfetchList } from "../../sfetch";
 import TeamDisplay from "../shared/TeamDisplay/TeamDisplay";
 import sortableTable from "../shared/SortableTable";
 import SimpleSelect from "../shared/SimpleSelect";
+import { Preview } from "@mui/icons-material";
 
 const useStyles = makeStyles({
   linkText: {
@@ -31,7 +33,8 @@ interface TeamSeasonTotal {
 }
 
 export default function TeamsPage() {
-  const [league, setLeague] = useState<string>("AVES");
+  const [searchParams, setSearchParams] = useSearchParams({ league: "" });
+  const league: string | null = searchParams.get("league");
   const [sport, setSport] = useState<string | undefined>("");
   const [teamSeasonTotals, setTeamSeasonTotals] = useState<
     Array<TeamSeasonTotal>
@@ -66,7 +69,7 @@ export default function TeamsPage() {
   }, [league]);
 
   function leagueChange(league: string) {
-    setLeague(league);
+    setSearchParams((prev) => ({ ...prev, league }));
   }
 
   function sportChange(sport: string) {

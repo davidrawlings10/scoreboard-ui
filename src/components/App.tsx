@@ -42,7 +42,7 @@ const App = () => {
           <Box bgcolor="background.default" color="text.primary">
             <BrowserRouter>
               <NavBar />
-              <Box display="flex" height="calc(100vh - 80px)" width="100%">
+              <Box display="flex" height="calc(100vh - 100px)" width="100%">
                 <Box overflow="auto" width="100%">
                   <Routes>
                     <Route path="/" element={<HomePage />} />

@@ -41,27 +41,22 @@ interface SimpleSelectProps {
 
 export default function SimpleSelect(props: SimpleSelectProps) {
   const [values, setValues] = useState<Array<any>>();
-  const [value, setValue] = useState<any>(props.value);
 
   useEffect(() => {
     sfetchList(getPath(props.entity)).then((list) => {
       setValues(list);
-      // setValue(list[0]);
-      props.onChange(list[0]);
+      if (!props.value) {
+        props.onChange(list[0]);
+      }
     });
   }, []);
-
-  function valueChange(event: any) {
-    setValue(event.target.value);
-    props.onChange(event.target.value);
-  }
 
   return (
     <Box>
       <InputLabel>{capitalize(props.entity)}</InputLabel>
       <Select
-        value={value}
-        onChange={valueChange}
+        value={props.value}
+        onChange={(event: any) => props.onChange(event?.target.value)}
         variant="outlined"
         fullWidth
         displayEmpty={props.displayEmpty}

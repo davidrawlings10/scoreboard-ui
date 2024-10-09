@@ -60,7 +60,7 @@ export default function TeamName(props: TeamNameProps) {
 
   return (
     <Box display="flex" justifyContent="center" alignItems="center">
-      {standing && `${standing.ranking} `}
+      {standing && standing.ranking && `${standing.ranking} `}
       {props.hideLocation || team?.location === null ? "" : team?.location}{" "}
       {team?.name}
       {standing && ` (${standing?.win}-${standing?.loss})`}
