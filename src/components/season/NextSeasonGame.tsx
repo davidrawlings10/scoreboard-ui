@@ -66,7 +66,7 @@ export default function NextSeasonGame(props: NextSeasonGameProps) {
 
   return (
     <Box display="flex" justifyContent="center">
-      <Box width={700}>
+      <Box width={1000}>
         <IncompleteGames
           seasonId={props.seasonId}
           handleResumeNow={handleResumeNow}
@@ -91,7 +91,7 @@ export default function NextSeasonGame(props: NextSeasonGameProps) {
             alignItems="center"
             justifyContent="center"
             bgcolor="primary.main"
-            minHeight={80}
+            minHeight={120}
           >
             {!nextSeasonGame && "There are no more scheduled games"}
             {!!nextSeasonGame && (

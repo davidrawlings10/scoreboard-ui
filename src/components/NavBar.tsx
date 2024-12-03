@@ -16,7 +16,7 @@ export default function NavBar() {
 
   const navList: Array<NavItem> = [
     { name: "Home", link: "/", icon: <Home /> },
-    { name: "Season", link: "/season", icon: <List /> },
+    { name: "Seasons", link: "/seasons", icon: <List /> },
     { name: "Schedule Season", link: "/scheduleSeason", icon: <PlaylistAdd /> },
     { name: "Start Game", link: "/startGame", icon: <PlayArrow /> },
     { name: "Teams", link: "/teams", icon: <List /> },

@@ -117,6 +117,7 @@ function reducer(newSeasonGames: NewSeasonGame[], action: Action) {
   switch (action.type) {
     case "remove":
       return newSeasonGames.filter(
+        // @ts-ignore
         (game, index) => index !== action.payload.index
       );
     case "add":

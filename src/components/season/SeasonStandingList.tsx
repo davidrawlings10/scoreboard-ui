@@ -35,6 +35,7 @@ export default function SeasonStandingList(props: SeasonStandingListProps) {
   }
 
   useEffect(() => {
+    console.log("will load with seasonId", props.seasonId);
     loadStandings(props.seasonId);
     // fetch(config.baseUrl + "/standing/get?seasonId=" + props.seasonId)
     //   .then((res) => res.json())

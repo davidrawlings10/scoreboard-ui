@@ -13,7 +13,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { decrement, increment } from "../../other/redux/counterSlice";
 
 export default function SeasonPage() {
-  const [seasonId, setSeasonId] = useState<number>(1);
+  document.title = "Scoreboard - Seasons";
+  const [seasonId, setSeasonId] = useState<number | null>(null);
   const [seasonUpdateDialogOpen, setSeasonUpdateDialogOpen] =
     useState<boolean>(false);
 

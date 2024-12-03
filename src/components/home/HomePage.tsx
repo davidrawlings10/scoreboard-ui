@@ -11,74 +11,91 @@ import GameEventList from "./GameEventListV2";
 import ScoreboardControls from "./ScoreboardControls";
 import CurrentGameList from "./CurrentGameList";
 import { AppContext } from "../App";
+import { sfetchList } from "../../sfetch";
 
 export default function HomePage() {
-  const [currentGames, setCurrentGames] = useState(Array<Game>());
-  const [finishedGames, setFinishedGames] = useState(Array<Game>());
+  document.title = "Scoreboard - Home";
+  // const [currentGames, setCurrentGames] = useState(Array<Game>());
+  // const [finishedGames, setFinishedGames] = useState(Array<Game>());
   const [displayGameId, setDisplayGameId] = useState<number | null>(null);
   const [displayGame, setDisplayGame] = useState<Game | null>(null);
-  const [gameEvents, setGameEvents] = useState(Array<GameEvent>());
+  const [gameEvents, setGameEvents] = useState<GameEvent[]>([]);
   const [excludePossessionEnded, setExcludePossessionEnded] =
     useState<boolean>(false);
 
-  const [running, setRunning] = useState(false);
-  const [millisecondsPerTick, setMillisecondsPerTick] = useState<number>(0);
-  const [gamesToPlay, setGamesToPlay] = useState<number>(0);
-  const [gamesPlayingConcurrently, setGamesPlayingConcurrently] =
-    useState<number>(0);
+  // const [running, setRunning] = useState(false);
+  // const [millisecondsPerTick, setMillisecondsPerTick] = useState<number>(0);
+  // const [gamesToPlay, setGamesToPlay] = useState<number>(0);
+  // const [gamesPlayingConcurrently, setGamesPlayingConcurrently] =
+  //   useState<number>(0);
 
-  const { seasons, loadSeasons } = useContext(AppContext);
-
-  const getScoreboardState = useCallback(() => {
-    fetch(config.baseUrl + "/game/getScoreboardState")
-      .then((res) => res.json())
-      .then((json) => {
-        setCurrentGames(json.games);
-        if (finishedGames.length !== json.finishedGames.length) {
-          setFinishedGames(json.finishedGames);
-        }
-        if (running !== json.running) {
-          setRunning(json.running);
-        }
-        if (millisecondsPerTick !== json.tickMilliseconds) {
-          setMillisecondsPerTick(json.tickMilliseconds);
-        }
-        if (gamesToPlay !== json.gamesToPlay) {
-          setGamesToPlay(json.gamesToPlay);
-        }
-        if (gamesPlayingConcurrently !== json.gamesPlayingConcurrently) {
-          setGamesPlayingConcurrently(json.gamesPlayingConcurrently);
-        }
-      });
-  }, [
-    finishedGames.length,
-    gamesPlayingConcurrently,
-    gamesToPlay,
-    millisecondsPerTick,
+  const {
+    seasons,
+    loadSeasons,
+    currentGames,
+    finishedGames,
     running,
-  ]);
+    millisecondsPerTick,
+    gamesToPlay,
+    gamesPlayingConcurrently,
+    getScoreboardState,
+  } = useContext(AppContext);
+
+  // const getScoreboardState = useCallback(() => {
+  //   fetch(config.baseUrl + "/game/getScoreboardState")
+  //     .then((res) => res.json())
+  //     .then((json) => {
+  //       setCurrentGames(json.games);
+  //       if (finishedGames.length !== json.finishedGames.length) {
+  //         setFinishedGames(json.finishedGames);
+  //       }
+  //       if (running !== json.running) {
+  //         setRunning(json.running);
+  //       }
+  //       if (millisecondsPerTick !== json.tickMilliseconds) {
+  //         setMillisecondsPerTick(json.tickMilliseconds);
+  //       }
+  //       if (gamesToPlay !== json.gamesToPlay) {
+  //         setGamesToPlay(json.gamesToPlay);
+  //       }
+  //       if (gamesPlayingConcurrently !== json.gamesPlayingConcurrently) {
+  //         setGamesPlayingConcurrently(json.gamesPlayingConcurrently);
+  //       }
+  //     });
+  // }, [
+  //   finishedGames.length,
+  //   gamesPlayingConcurrently,
+  //   gamesToPlay,
+  //   millisecondsPerTick,
+  //   running,
+  // ]);
 
   const getGameEvents = useCallback((): void => {
     if (displayGameId) {
-      fetch(
-        `${config.baseUrl}/gameEvent/getByGameId?gameId=${displayGameId}&excludePossessionEnded=${excludePossessionEnded}`
+      sfetchList(
+        `/gameEvent/getByGameId?gameId=${displayGameId}&excludePossessionEnded=${excludePossessionEnded}`
       )
-        .then((res) => res.json())
-        .then((json) => {
-          setGameEvents(json.list);
+        // .then((res) => res.json())
+        .then((response) => {
+          // console.log(
+          //   "response.length",
+          //   response.length,
+          //   "gameEvents.length",
+          //   gameEvents.length
+          // );
+          if (response.length !== gameEvents.length) {
+            console.log("setting now!");
+            setGameEvents(response);
+          }
         });
     }
-  }, [displayGameId, excludePossessionEnded]);
+  }, [displayGameId, excludePossessionEnded, gameEvents]);
 
   const updateDisplayGameId = useCallback((): void => {
     if (currentGames.concat(finishedGames).length > 0) {
       setDisplayGameId(currentGames.concat(finishedGames)[0].id);
     }
   }, []);
-
-  const handleExcludePossessionEndedChanged = (value: boolean) => {
-    setExcludePossessionEnded(value);
-  };
 
   useEffect(() => {
     if (!seasons) {
@@ -88,11 +105,13 @@ export default function HomePage() {
 
   useEffect(() => {
     if (displayGameId) {
-      currentGames.concat(finishedGames).forEach((game: Game) => {
-        if (game.id === displayGameId) {
-          setDisplayGame(game);
-        }
-      });
+      const displayGame: Game | undefined = [
+        ...currentGames,
+        ...finishedGames,
+      ].find((game: Game) => game.id === displayGameId);
+      if (displayGame) {
+        setDisplayGame(displayGame);
+      }
     } else {
       // updateDisplayGameId();
       setDisplayGameId(currentGames.concat(finishedGames)[0]?.id);
@@ -132,13 +151,13 @@ export default function HomePage() {
     };
   }, [getGameEvents]);
 
-  const handleRunningChange = (value: boolean) => {
+  const handleRunningChange = () => {
     if (running) {
       fetch(config.baseUrl + "/game/pauseGames");
     } else {
       fetch(config.baseUrl + "/game/playGames");
     }
-    setRunning(value);
+    // setRunning(value);
   };
 
   const [scoreboardControlsDialogOpen, setScoreboardControlsDialogOpen] =
@@ -189,11 +208,11 @@ export default function HomePage() {
             <Box alignItems="center" flexDirection="column">
               <GameEventList
                 gameEvents={gameEvents}
-                game={displayGame}
+                homeTeamId={displayGame?.homeTeamId}
+                awayTeamId={displayGame?.awayTeamId}
+                endingPeriod={displayGame?.sportInfo.ending_PERIOD}
                 excludePossessionEnded={excludePossessionEnded}
-                handleExcludePossessionEndedChanged={
-                  handleExcludePossessionEndedChanged
-                }
+                handleExcludePossessionEndedChanged={setExcludePossessionEnded}
               />
             </Box>
           )}
@@ -201,6 +220,8 @@ export default function HomePage() {
         <Box marginTop={4}>
           <SeasonDisplay
             seasonId={displayGame?.seasonId || seasons?.length}
+            // numCurrentGames={currentGames.length}
+            // numFinishedGames={finishedGames.length}
             numGames={{
               current: currentGames.length,
               finished: finishedGames.length,

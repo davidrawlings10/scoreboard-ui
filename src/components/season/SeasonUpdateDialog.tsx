@@ -17,7 +17,7 @@ import { sfetch, sfetchList } from "../../sfetch";
 interface SeasonControlsDialogProps {
   open: boolean;
   onClose: () => void;
-  seasonId: number;
+  seasonId: number | null;
 }
 
 export default function SeasonUpdateDialog(props: SeasonControlsDialogProps) {
@@ -54,6 +54,9 @@ export default function SeasonUpdateDialog(props: SeasonControlsDialogProps) {
     //     winnerTeamId +
     //     "&summary=" +
     //     summary
+    if (!props.seasonId) {
+      return;
+    }
     sfetch(
       `/season/update?${new URLSearchParams({
         seasonId: props.seasonId.toString(),

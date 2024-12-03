@@ -11,6 +11,7 @@ export interface TeamNameProps {
   id: number;
   hideLocation?: boolean;
   showStanding?: boolean;
+  flipDisplay?: boolean;
 }
 
 export default function TeamName(props: TeamNameProps) {
@@ -59,11 +60,29 @@ export default function TeamName(props: TeamNameProps) {
   }, [standings, props.id, props.showStanding]);
 
   return (
-    <Box display="flex" justifyContent="center" alignItems="center">
-      {standing && standing.ranking && `${standing.ranking} `}
-      {props.hideLocation || team?.location === null ? "" : team?.location}{" "}
-      {team?.name}
-      {standing && ` (${standing?.win}-${standing?.loss})`}
+    <Box
+      display="flex"
+      flexDirection="column"
+      // alignItems={props.flipDisplay ? "flex-start" : "flex-end"}
+    >
+      <Box
+        display="flex"
+        // justifyContent="center"
+        // alignItems="center"
+        gap={0.5}
+        // justifyContent={props.flipDisplay ? "flex-end" : "flex-start"}
+      >
+        <Box color="#aaa">
+          {standing && standing.ranking && `${standing.ranking} `}
+        </Box>
+        {props.hideLocation || team?.location === null ? "" : team?.location}{" "}
+        {team?.name}
+      </Box>
+      {/* <Typography color="#aaa" fontSize={15}> */}
+      <Box color="#aaa" fontSize={14}>
+        {standing && ` (${standing?.win}-${standing?.loss})`}
+      </Box>
+      {/* </Typography> */}
     </Box>
   );
 }

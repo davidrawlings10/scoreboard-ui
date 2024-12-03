@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Box, Button, FormControlLabel, Switch, Chip } from "@mui/material";
 import { Settings } from "@mui/icons-material";
 
@@ -28,10 +28,11 @@ export default function ScoreboardControls(props: ScoreboardControlsProps) {
 
   const [fullDisplay, setFullDisplay] = useState<boolean>(true);
 
-  const handleRunningChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const running: boolean = event.target.checked;
-    props.handleRunningChange(running);
-  };
+  const handleRunningChange =
+    (/*event: React.ChangeEvent<HTMLInputElement>*/) => {
+      // const running: boolean = event.target.checked;
+      props.handleRunningChange();
+    };
 
   const handleScoreboardControlsDialogOpen = () => {
     props.handleScoreboardControlsDialogOpen();

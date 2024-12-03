@@ -74,9 +74,15 @@ export default function SeasonGameList(props: SeasonGameListProps) {
       .then((res) => res.json())
       .then((standingsResult) =>
         setTeamIds(
-          standingsResult.list.map((standing: Standing) => standing.teamId)
+          standingsResult?.list?.map((standing: Standing) => standing.teamId)
         )
-      );
+      )
+      .catch((e) => {
+        console.log(
+          "log: failing to get standings here. was trying to get them just for an accurate list of teamIds. error message is" +
+            e
+        );
+      });
   }, [props.seasonId]);
 
   function handleTeamIdFilterChange(value: string) {
@@ -88,6 +94,7 @@ export default function SeasonGameList(props: SeasonGameListProps) {
   }
 
   const handlePageChange = (
+    // @ts-ignore
     event: React.ChangeEvent<unknown>,
     value: number
   ) => {

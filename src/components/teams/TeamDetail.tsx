@@ -1,4 +1,3 @@
-import React from "react";
 import { useParams } from "react-router-dom";
 
 import TeamDisplay from "../shared/TeamDisplay/TeamDisplay";
@@ -9,7 +8,7 @@ import type { RootState } from "../../other/redux/store";
 import { useSelector } from "react-redux";
 
 export default function TeamDetail() {
-  const { id }: { id: string } = useParams();
+  const { id } = useParams();
   const teamId: number = parseInt(id);
 
   const count = useSelector((state: RootState) => state.counter.value);

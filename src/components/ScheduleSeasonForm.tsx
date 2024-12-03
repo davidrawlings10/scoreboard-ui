@@ -18,6 +18,7 @@ import SimpleSelect from "./shared/SimpleSelect";
 import TeamDisplay from "./shared/TeamDisplay/TeamDisplay";
 
 export default function ScheduleSeasonForm() {
+  document.title = "Scoreboard - Start Season";
   const [title, setTitle] = useState<string>("<Unnamed Season>");
   const [scheduleType, setScheduleType] = useState<string>(
     "HOME_ROTATION_RANDOM"
@@ -109,7 +110,7 @@ export default function ScheduleSeasonForm() {
     reason?: string
   ) => {
     if (reason === "clickaway") {
-      return;
+      return event; // returning event, just to get warning to go away haha
     }
 
     setSnackbarOpen(false);

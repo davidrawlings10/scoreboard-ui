@@ -8,7 +8,7 @@ import SportDisplay from "../shared/SportDisplay/SportDisplay";
 import { useState, useEffect } from "react";
 
 export type SeasonHeaderProps = {
-  seasonId: number;
+  seasonId: number | null;
 };
 
 export default function SeasonHeader(props: SeasonHeaderProps) {

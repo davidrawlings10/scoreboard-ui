@@ -5,9 +5,10 @@ import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import SeasonStandingList from "./SeasonStandingList";
 import SeasonGameList from "./SeasonGameList";
 import NextSeasonGame from "./NextSeasonGame";
+import { memo } from "react";
 
 export type SeasonDisplayProps = {
-  seasonId?: number;
+  seasonId?: number | null;
   numGames: { current: number; finished: number } | null; // this is so that when a game is finished, this component (which is wrapped in memo) will refresh
 };
 
@@ -20,6 +21,7 @@ function SeasonDisplay(props: SeasonDisplayProps) {
     React.useState<boolean>(false);
 
   const handleGameStartedAlertClose = (
+    // @ts-ignore
     event?: React.SyntheticEvent,
     reason?: string
   ) => {
@@ -33,6 +35,8 @@ function SeasonDisplay(props: SeasonDisplayProps) {
   if (!props.seasonId) {
     return <div></div>;
   }
+
+  console.log("log: seadonDisplay rendering");
 
   return (
     <Box overflow="auto">
@@ -48,4 +52,4 @@ function SeasonDisplay(props: SeasonDisplayProps) {
   );
 }
 
-export default SeasonDisplay;
+export default memo(SeasonDisplay);

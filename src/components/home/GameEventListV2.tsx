@@ -3,9 +3,10 @@ import { Box, capitalize, FormControlLabel, Switch } from "@mui/material";
 
 import theme from "../../theme";
 import GameEvent from "../../types/GameEvent";
-import Game, { Clock } from "../../types/Game";
+import { Clock } from "../../types/Game";
 import TeamDisplay from "../shared/TeamDisplay/TeamDisplay";
 import { ClockDisplay } from "../shared/GameClockDisplay";
+import { memo } from "react";
 
 const useStyles = makeStyles({
   highlight: {
@@ -14,24 +15,32 @@ const useStyles = makeStyles({
 });
 
 interface GameEventListProps {
-  gameEvents: Array<GameEvent>;
-  game: Game;
+  gameEvents: GameEvent[];
+  homeTeamId: number | undefined;
+  awayTeamId: number | undefined;
+  endingPeriod: number | undefined;
   excludePossessionEnded: boolean;
   handleExcludePossessionEndedChanged: (value: boolean) => void;
 }
 
-export default function GameEventList(props: GameEventListProps) {
+function GameEventList(props: GameEventListProps) {
   const {
     gameEvents,
-    game,
+    homeTeamId,
+    awayTeamId,
+    endingPeriod,
     excludePossessionEnded,
     handleExcludePossessionEndedChanged,
   } = props;
 
+  // const excludePossessionEnded: boolean = true;
+  // const handleExcludePossessionEndedChanged = (a: boolean) => {};
+  // const gameEvents: GameEvent[] = [];
+
   const classes = useStyles();
 
-  if (!game) {
-    return <div></div>;
+  if (!homeTeamId || !awayTeamId || !endingPeriod) {
+    return <></>;
   }
 
   return (
@@ -46,10 +55,14 @@ export default function GameEventList(props: GameEventListProps) {
           bgcolor="primary.main"
           border="1px solid black"
           overflow="auto"
-          maxHeight={400}
+          maxHeight={500}
           width="100%"
         >
-          {gameEvents.length === 0 && "No events"}
+          {gameEvents.length === 0 && (
+            <Box display="flex" justifyContent="center" p={2}>
+              No events
+            </Box>
+          )}
           {gameEvents
             .sort(function (a, b) {
               return b.id - a.id;
@@ -64,9 +77,9 @@ export default function GameEventList(props: GameEventListProps) {
               };
 
               const homeTeamTextStyle =
-                gameEvent.teamId === game.homeTeamId ? classes.highlight : "";
+                gameEvent.teamId === homeTeamId ? classes.highlight : "";
               const awayTeamTextStyle =
-                gameEvent.teamId === game.awayTeamId ? classes.highlight : "";
+                gameEvent.teamId === awayTeamId ? classes.highlight : "";
               return (
                 <Box
                   key={gameEvent.id}
@@ -76,12 +89,13 @@ export default function GameEventList(props: GameEventListProps) {
                 >
                   <Box
                     border="1px solid black"
-                    p={1}
+                    paddingY={1}
+                    paddingX={2}
                     width={window.innerWidth < 600 ? "10%" : "30%"}
                   >
                     <Box className={homeTeamTextStyle}>
                       <TeamDisplay
-                        id={game.homeTeamId}
+                        id={homeTeamId}
                         hideName={window.innerWidth < 600}
                         hideLocation
                       />
@@ -101,12 +115,13 @@ export default function GameEventList(props: GameEventListProps) {
                   </Box>
                   <Box
                     border="1px solid black"
-                    p={1}
+                    paddingY={1}
+                    paddingX={2}
                     width={window.innerWidth < 600 ? "10%" : "30%"}
                   >
                     <Box className={awayTeamTextStyle}>
                       <TeamDisplay
-                        id={game.awayTeamId}
+                        id={awayTeamId}
                         hideName={window.innerWidth < 600}
                         hideLocation
                       />
@@ -133,7 +148,7 @@ export default function GameEventList(props: GameEventListProps) {
                   >
                     <ClockDisplay
                       clock={clock}
-                      sportEndingPeriod={game.sportInfo.ending_PERIOD}
+                      sportEndingPeriod={endingPeriod}
                     />
                   </Box>
                   <Box
@@ -175,3 +190,5 @@ export default function GameEventList(props: GameEventListProps) {
     </Box>
   );
 }
+
+export default memo(GameEventList);

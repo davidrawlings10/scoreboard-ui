@@ -9,7 +9,6 @@ import { sfetchList } from "../../sfetch";
 import TeamDisplay from "../shared/TeamDisplay/TeamDisplay";
 import sortableTable from "../shared/SortableTable";
 import SimpleSelect from "../shared/SimpleSelect";
-import { Preview } from "@mui/icons-material";
 
 const useStyles = makeStyles({
   linkText: {
@@ -33,6 +32,7 @@ interface TeamSeasonTotal {
 }
 
 export default function TeamsPage() {
+  document.title = "Scoreboard - Teams";
   const [searchParams, setSearchParams] = useSearchParams({ league: "" });
   const league: string | null = searchParams.get("league");
   const [sport, setSport] = useState<string | undefined>("");

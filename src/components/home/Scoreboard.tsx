@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { Box, IconButton } from "@mui/material";
 import { Delete as DeleteIcon } from "@mui/icons-material";
 
@@ -8,7 +8,6 @@ import GameClockDisplay from "../shared/GameClockDisplay";
 import Game from "../../types/Game";
 import ConfirmationDialog from "./ConfirmationDialog";
 import SportLogo from "../shared/SportDisplay/SportLogo";
-import Standing from "../../types/Standing";
 
 interface ScoreboardRowProps {
   teamId: number;
@@ -17,6 +16,8 @@ interface ScoreboardRowProps {
   possession?: boolean;
   sport: string;
 }
+
+// export const SMALL_SCOREBOARD_WIDTH: number = 260;
 
 function ScoreboardRow({
   teamId,
@@ -34,11 +35,12 @@ function ScoreboardRow({
         display="flex"
         flexDirection="row"
         justifyContent="space-between"
+        alignItems="center"
       >
         <Box display="flex" flexDirection="row" gap={1} paddingLeft={1}>
           <TeamDisplay id={teamId} hideLocation={small} showStanding />
         </Box>
-        {possession && <SportLogo value={sport} />}
+        <Box>{possession && <SportLogo value={sport} />}</Box>
       </Box>
       <Box
         border="1px solid black"
@@ -53,6 +55,8 @@ function ScoreboardRow({
     </Box>
   );
 }
+
+const ScoreboardRowMemo = memo(ScoreboardRow);
 
 export type ScoreboardProps = {
   game: Game | null;
@@ -91,7 +95,7 @@ export default function Scoreboard(props: ScoreboardProps) {
             bgcolor="primary.main"
             border="1px solid black"
             // className={props.small ? classes.root : ""}
-            width={props.small ? 300 : 380}
+            width={props.small ? 261 : 380}
             sx={
               props.small
                 ? {
@@ -103,14 +107,14 @@ export default function Scoreboard(props: ScoreboardProps) {
                 : {}
             }
           >
-            <ScoreboardRow
+            <ScoreboardRowMemo
               teamId={props.game.homeTeamId}
               score={props.game.homeScore}
               small={props.small}
               possession={props.game.homeHasPossession}
               sport={props.game.sport}
             />
-            <ScoreboardRow
+            <ScoreboardRowMemo
               teamId={props.game.awayTeamId}
               score={props.game.awayScore}
               small={props.small}

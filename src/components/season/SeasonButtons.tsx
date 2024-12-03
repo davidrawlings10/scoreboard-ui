@@ -3,7 +3,7 @@ import { Edit, AddToQueue } from "@mui/icons-material";
 import config from "../../config";
 
 interface SeasonButtonsProps {
-  seasonId: number;
+  seasonId: number | null;
   handleOpenDialog: () => void;
 }
 

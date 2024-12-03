@@ -29,6 +29,7 @@ export default class StartGameFormClass extends React.Component<
 > {
   constructor(props: StartGameFormClassProps) {
     super(props);
+    document.title = "Scoreboard - Start Game";
 
     this.sportChange = this.sportChange.bind(this);
     this.homeLeagueChange = this.homeLeagueChange.bind(this);
@@ -88,6 +89,7 @@ export default class StartGameFormClass extends React.Component<
     });
   }
 
+  // @ts-ignore
   handleCloseSnackbar(event?: React.SyntheticEvent, reason?: string) {
     if (reason === "clickaway") {
       return;
